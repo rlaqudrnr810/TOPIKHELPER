@@ -64,7 +64,6 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
                             progressDialog.dismiss();
                         }
                     });
-
         }
     }
 }
