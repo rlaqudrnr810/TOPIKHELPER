@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Problem_No_Time_Activity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="원하는 유형을 선택하세요."/>
+
+
+    <Button
+        android:id="@+id/problem_random"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="랜덤별 풀기"/>
+    <Button
+        android:id="@+id/problem_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="유형별 풀기"/>
+</LinearLayout>

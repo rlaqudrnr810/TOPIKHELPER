@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Mypage extends AppCompatActivity implements View.OnClickListener {
+public class Mypage_Activity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
 
     //firebase auth object
@@ -69,7 +69,7 @@ public class Mypage extends AppCompatActivity implements View.OnClickListener {
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다. 삭제전에 컨펌창을 하나 띄워야 겠다.
         if(view == textivewDelete) {
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Mypage.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Mypage_Activity.this);
             alert_confirm.setMessage("정말 계정을 삭제 할까요?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -78,7 +78,7 @@ public class Mypage extends AppCompatActivity implements View.OnClickListener {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(Mypage.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(Mypage_Activity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
                                             finish();
                                             startActivity(new Intent(getApplicationContext(), Login.class));
                                         }
@@ -89,7 +89,7 @@ public class Mypage extends AppCompatActivity implements View.OnClickListener {
             alert_confirm.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(Mypage.this, "취소", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Mypage_Activity.this, "취소", Toast.LENGTH_LONG).show();
                 }
             });
             alert_confirm.show();

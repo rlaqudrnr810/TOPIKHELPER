@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         //initializig firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             //이미 로그인 되었다면 이 액티비티를 종료함
             finish();
             //그리고 profile 액티비티를 연다.
-            startActivity(new Intent(getApplicationContext(), first.class)); //추가해 줄 ProfileActivity
+            startActivity(new Intent(getApplicationContext(), Menu_Activity.class)); //추가해 줄 ProfileActivity
         }
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -66,15 +66,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         String password = editTextPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter the ID.\n", Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter the Password.\n", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        progressDialog.setMessage("로그인중입니다. 잠시 기다려 주세요...");
+        progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
         //logging in the user
@@ -85,9 +85,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         progressDialog.dismiss();
                         if(task.isSuccessful()) {
                             finish();
-                            startActivity(new Intent(getApplicationContext(), first.class));
+                            startActivity(new Intent(getApplicationContext(), Menu_Activity.class));
                         } else {
-                            Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_LONG).show();
                             textviewMessage.setText("로그인 실패 유형\n - password가 맞지 않습니다.\n -서버에러");
                         }
                     }
@@ -103,7 +103,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
         if(view == textviewSingin) {
             finish();
-            startActivity(new Intent(this, Signup.class));
+            startActivity(new Intent(this, Signup_Activity.class));
         }
         if(view == textviewFindPassword) {
             finish();

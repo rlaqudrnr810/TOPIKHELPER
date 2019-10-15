@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class first extends AppCompatActivity {
+public class first_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class first extends AppCompatActivity {
         button_mypage.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), Mypage.class);
+                Intent intent = new Intent(getApplicationContext(), Mypage_Activity.class);
                 startActivity(intent);
             }
         });

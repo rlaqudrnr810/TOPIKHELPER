@@ -1,9 +1,12 @@
 package com.example.topikhelper;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,8 +48,8 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view == buttonFind){
-            progressDialog.setMessage("처리중입니다. 잠시 기다려 주세요...");
+        if(view == buttonFind && editTextUserEmail != null){
+            progressDialog.setMessage("Please, Wait....");
             progressDialog.show();
             //비밀번호 재설정 이메일 보내기
             String emailAddress = editTextUserEmail.getText().toString().trim();
@@ -55,15 +58,28 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(FindPassword.this, "이메일을 보냈습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(FindPassword.this, "A Password change mail has been sent.\n Please confirm an email\n", Toast.LENGTH_LONG).show();
                                 finish();
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                             } else {
-                                Toast.makeText(FindPassword.this, "메일 보내기 실패!", Toast.LENGTH_LONG).show();
+                                Toast toast = Toast.makeText(FindPassword.this, "         FAILED\n This user is not registered..", Toast.LENGTH_LONG);
+                                //Toast.makeText(FindPassword.this, "         Failed\n This user is not registered.", Toast.LENGTH_LONG).show();
+                                ViewGroup group = (ViewGroup) toast.getView();
+                                TextView messageTextView = (TextView) group.getChildAt(0);
+                                messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                                toast.show();
                             }
                             progressDialog.dismiss();
                         }
                     });
+        }
+        else if(view == buttonFind && editTextUserEmail == null){
+            Context context = getApplicationContext();
+            String message = "Enter your E-mail";
+            int d = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, message, d);
+            toast.show();
+
         }
     }
 }
