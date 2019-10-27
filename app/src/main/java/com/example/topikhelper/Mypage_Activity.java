@@ -63,9 +63,12 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == buttonLogout) {
-            firebaseAuth.signOut();
+            firebaseAuth.getInstance().signOut();
             finish();
-            startActivity(new Intent(this, Login.class));
+            Intent intent = new Intent(this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            //startActivity(new Intent(this, Login.class));
         }
         //회원탈퇴를 클릭하면 회원정보를 삭제한다. 삭제전에 컨펌창을 하나 띄워야 겠다.
         if(view == textivewDelete) {

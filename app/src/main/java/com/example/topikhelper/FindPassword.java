@@ -45,7 +45,10 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
         buttonFind.setOnClickListener(this);
 
     }
-
+    public void onBackPressed() {
+        finish();
+        startActivity(new Intent(this, Login.class));
+    }
     @Override
     public void onClick(View view) {
         if(view == buttonFind && editTextUserEmail != null){

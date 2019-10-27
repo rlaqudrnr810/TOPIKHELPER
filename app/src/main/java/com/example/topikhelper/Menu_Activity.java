@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Menu_Activity extends AppCompatActivity {
+        private MainBackPressCloseHandler mainBackPressCloseHandler;
 
         private Button button1; // 모의고사 풀기
         private Button button2; // 한문제씩 풀기
@@ -21,6 +22,7 @@ public class Menu_Activity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_menu);
+            mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
 
             button1 = findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +71,12 @@ public class Menu_Activity extends AppCompatActivity {
             });
 
 
-
-
-
         }
+
+
+    @Override
+    public void onBackPressed() {
+        mainBackPressCloseHandler.onBackPressed();
+    }
+
     }

@@ -19,7 +19,6 @@
         <activity android:name=".Menu_Activity" />
         <activity android:name=".Prac1" />
         <activity android:name=".Prac2" />
-        <activity android:name=".first_Activity" />
         <activity android:name=".Login" />
         <activity android:name=".Signup_Activity" />
         <activity android:name=".FindPassword" />
