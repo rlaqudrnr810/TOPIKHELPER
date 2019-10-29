@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF0FFFF"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp"
+    tools:context=".Dictionary_Select_Activity">
+    <!-- 상단바 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFF0FFFF">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="409dp"
+            android:layout_height="45dp"
+            android:background="#F1C40F"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="Dictionary"
+                android:textColor="#070707"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:ignore="MissingConstraints">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!-- daily voca -->
+                    <Button
+                        android:id="@+id/daily_voca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#FFFFA500"
+                        android:text="Daily Voca"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:textColor="#FF000000"/>
+
+
+                    <ListView
+                        android:id="@+id/daylistitem"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"
+                        android:divider="#FF696969"
+                        android:dividerHeight="1dp"
+                        android:background="#FFFFFFFF" />
+
+
+                    <!-- search voca -->
+                    <Button
+                        android:id="@+id/search_voca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#FFFFA500"
+                        android:text="Search Voca"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:textColor="#FF000000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/dictionaryLinear"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="input the korean for translation"
+                                android:textSize="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="#FF000000"/>
+                            <EditText
+                                android:id="@+id/translationText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Search"
+                                android:textColorHint="#FF000000"
+                                android:textSize="30dp"
+                                android:textStyle="italic"
+                                android:textColor="#FF000000"
+                                android:inputType="text"
+                                android:background="@drawable/shape"/>
+
+                            <ImageView
+                                android:id="@+id/translationButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/transform"/>
+                            <TextView
+                                android:id="@+id/resultText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Result"
+                                android:ems="15"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="25dp"
+                                android:textColor="#FF000000"
+                                android:textSize="30dp"
+                                android:textStyle="italic"
+                                android:background="@drawable/shape"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

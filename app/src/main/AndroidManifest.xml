@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.topikhelper">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Mypage_Activity"></activity>
+        <activity android:name=".Dictionary_Select_Activity"></activity>
+        <activity android:name=".Daily_Voca_Activity" />
+        <activity android:name=".Mypage_Activity" />
         <activity android:name=".Test_With_Time_Activity" />
         <activity android:name=".Test_With_Notime_Activity" />
         <activity android:name=".Problem_Time_Activity" />
         <activity android:name=".Problem_No_Time_Activity" />
-        <activity android:name=".Dictionary_Activity" />
         <activity android:name=".Cookie_Activity" />
         <activity android:name=".Menu_Activity" />
-        <activity android:name=".Prac1" />
         <activity android:name=".Prac2" />
         <activity android:name=".Login" />
         <activity android:name=".Signup_Activity" />

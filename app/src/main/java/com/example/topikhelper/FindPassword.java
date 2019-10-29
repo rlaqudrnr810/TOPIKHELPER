@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class FindPassword extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "FindPassword";
 
-    //define view objects
     private EditText editTextUserEmail;
     private Button buttonFind;
-    private TextView textviewMessage;
     private ProgressDialog progressDialog;
-    //define firebase object
     private FirebaseAuth firebaseAuth;
-
+    String emailAddress = "";
 
 
     @Override
@@ -51,11 +49,13 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View view) {
-        if(view == buttonFind && editTextUserEmail != null){
+
+        emailAddress = editTextUserEmail.getText().toString().trim();
+        if(view == buttonFind && !TextUtils.isEmpty(emailAddress)){
             progressDialog.setMessage("Please, Wait....");
             progressDialog.show();
+
             //비밀번호 재설정 이메일 보내기
-            String emailAddress = editTextUserEmail.getText().toString().trim();
             firebaseAuth.sendPasswordResetEmail(emailAddress)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -66,7 +66,6 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                             } else {
                                 Toast toast = Toast.makeText(FindPassword.this, "         FAILED\n This user is not registered..", Toast.LENGTH_LONG);
-                                //Toast.makeText(FindPassword.this, "         Failed\n This user is not registered.", Toast.LENGTH_LONG).show();
                                 ViewGroup group = (ViewGroup) toast.getView();
                                 TextView messageTextView = (TextView) group.getChildAt(0);
                                 messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -76,7 +75,7 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
                         }
                     });
         }
-        else if(view == buttonFind && editTextUserEmail == null){
+        else if(view == buttonFind && TextUtils.isEmpty(emailAddress)){
             Context context = getApplicationContext();
             String message = "Enter your E-mail";
             int d = Toast.LENGTH_SHORT;

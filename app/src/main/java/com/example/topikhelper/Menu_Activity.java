@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class Menu_Activity extends AppCompatActivity {
         private MainBackPressCloseHandler mainBackPressCloseHandler;
+        private long backKeyPressedTime = 0;
+        private Toast toast;
 
         private Button button1; // 모의고사 풀기
         private Button button2; // 한문제씩 풀기
@@ -46,7 +50,7 @@ public class Menu_Activity extends AppCompatActivity {
             button3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Menu_Activity.this, Dictionary_Activity.class);
+                    Intent intent = new Intent(Menu_Activity.this, Dictionary_Select_Activity.class);
                     startActivity(intent); //액티비티 이동
                 }
             });
@@ -73,10 +77,32 @@ public class Menu_Activity extends AppCompatActivity {
 
         }
 
-
+/*
     @Override
     public void onBackPressed() {
         mainBackPressCloseHandler.onBackPressed();
     }
 
+ */
+
+
+
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            showGuide();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            toast.cancel();
+            ActivityCompat.finishAffinity(this);
+        }
     }
+    public void showGuide() {
+        toast = Toast.makeText(this, "Press the \'back button\' again to exit.",
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+}

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,57 +19,58 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class Signup_Activity extends AppCompatActivity implements View.OnClickListener{
     //private MainBackPressCloseHandler mainBackPressCloseHandler;
+
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
     //define view objects
     EditText editTextEmail;
     EditText editTextPassword;
     EditText editTextPasswordCheck;
+    EditText editTextNickname;
     Button buttonSignup;
     Button buttonBack;
-    //Button buttonCheck;
-    boolean check;
-    //TextView textviewSingin;
-    TextView textviewMessage;
     ProgressDialog progressDialog;
     //define firebase object
     FirebaseAuth firebaseAuth;
     RadioGroup rg;
+
+    private String email = "";
+    private String password = "";
+    private String nickname = "";
+    private String sex = "";
+    private String UserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        //mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
-        //initializig firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
-/*
-        if(firebaseAuth.getCurrentUser() != null){
-            //이미 로그인 되었다면 이 액티비티를 종료함
-            finish();
-            //그리고 profile 액티비티를 연다.
-            startActivity(new Intent(getApplicationContext(), Menu_Activity.class)); //추가해 줄 ProfileActivity
-        }
 
- */
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextPasswordCheck = (EditText) findViewById(R.id.editTextPasswordCheck);
-        //textviewSingin= (TextView) findViewById(R.id.textViewSignin);
-        textviewMessage = (TextView) findViewById(R.id.textviewMessage);
+        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
         buttonBack = (Button) findViewById(R.id.already);
-        //buttonCheck = (Button) findViewById(R.id.button_check);
+
         progressDialog = new ProgressDialog(this);
-        //check = false;
-        //button click event
+
         buttonSignup.setOnClickListener(this);
         buttonBack.setOnClickListener(this);
-        //textviewSingin.setOnClickListener(this);
-        //buttonCheck.setOnClickListener(this);
+
         rg = (RadioGroup)findViewById(R.id.radioGroup1);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("사용자");
+        UserId = mFirebaseDatabase.push().getKey();
 
     }
     @Override
@@ -83,9 +83,10 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
     //Firebse creating a new user
     private void registerUser(){
         //사용자가 입력하는 email, password를 가져온다.
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        email = editTextEmail.getText().toString().trim();
+        password = editTextPassword.getText().toString().trim();
         String passwordCheck = editTextPasswordCheck.getText().toString().trim();
+        nickname = editTextNickname.getText().toString().trim();
         //email과 password가 비었는지 아닌지를 체크
 
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() || TextUtils.isEmpty(password) || !password.equals(passwordCheck)) {
@@ -120,11 +121,12 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
                                         if (task.isSuccessful()) {    //회원가입 성공
                                             int id = rg.getCheckedRadioButtonId();                  //id는 성별
                                             RadioButton rb = (RadioButton) findViewById(id);
-                                            Toast.makeText(Signup_Activity.this, rb.getText().toString(), Toast.LENGTH_SHORT).show();
-                                            finish();
+                                            sex = rb.getText().toString();
+                                            User user = new User(email, nickname, sex);
+                                            mFirebaseDatabase.child(UserId).setValue(user);
+
                                             startActivity(new Intent(getApplicationContext(), Login.class));
                                         } else {                    //회원가입 실패
-                                            //textviewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
                                             Toast.makeText(Signup_Activity.this, "Sign-Up ERROR!", Toast.LENGTH_SHORT).show();
                                             return;
                                         }
@@ -132,21 +134,6 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
 
                                     }
                                 });
-                            /*
-                            if (task.isSuccessful()) {    //회원가입 성공
-                                int id = rg.getCheckedRadioButtonId();                  //id는 성별
-                                RadioButton rb = (RadioButton) findViewById(id);
-                                //Toast.makeText(Signup_Activity.this, rb.getText().toString(), Toast.LENGTH_SHORT).show();
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), Login.class));
-                            } else {                    //회원가입 실패
-                                //textviewMessage.setText("에러유형\n - 이미 등록된 이메일  \n -암호 최소 6자리 이상 \n - 서버에러");
-                                Toast.makeText(Signup_Activity.this, "Sign-Up ERROR!", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            progressDialog.dismiss();
-
-                             */
                         }
                     });
         }
@@ -160,7 +147,6 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
             //TODO
             registerUser();
         }
-
 
         if(view == buttonBack) {
             //TODO
