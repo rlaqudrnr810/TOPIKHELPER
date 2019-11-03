@@ -8,11 +8,13 @@ public class User {
     public String email = "";
     public String nickname = "";
     public String sex = "";
+    public String history = "";
 
     //사용자 생성자
-    public User(String email, String nickname, String sex) {
+    public User(String email, String nickname, String sex, String history) {
         this.email = email;
         this.nickname = nickname;
         this.sex = sex;
+        this.history = history;
     }
 }

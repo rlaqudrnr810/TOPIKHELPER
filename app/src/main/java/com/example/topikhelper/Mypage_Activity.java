@@ -29,12 +29,13 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
 
     private FirebaseAuth firebaseAuth;
 
+
+    private TextView nickname;
     private TextView textViewUserEmail;
     private Button buttonLogout;
-    private Button test_btn;
+    private Button remove_btn;
 
-    private TextView textivewDelete;
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("사용자");
     String email = "";
 
     @Override
@@ -42,10 +43,11 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
+        nickname = (TextView) findViewById(R.id.textviewUserNickname);
         textViewUserEmail = (TextView) findViewById(R.id.textviewUserEmail);
+
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
-        textivewDelete = (TextView) findViewById(R.id.textviewDelete);
-        test_btn = (Button) findViewById(R.id.upload);
+        remove_btn = (Button) findViewById(R.id.textviewDelete);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -60,11 +62,34 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
 
         email = user.getEmail();
 
-        textViewUserEmail.setText("Hello "+ email);
-
         //logout button event
         buttonLogout.setOnClickListener(this);
-        textivewDelete.setOnClickListener(this);
+        remove_btn.setOnClickListener(this);
+        //test_btn.setOnClickListener(this);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if( ds.child("email").getValue().toString().equals(email)) {
+                        //Log.d("빠끄", ds.child("nickname").getValue().toString());
+                        nickname.setText(ds.child("nickname").getValue().toString());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("on Cancelled ERROR!", databaseError.getMessage());
+            }
+        };
+        ref.addListenerForSingleValueEvent(valueEventListener);
+
+        textViewUserEmail.setText("("+ email + ")");
+
+
+
 
 
     }
@@ -74,7 +99,7 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Query applesQuery = ref.child("사용자").orderByChild("email").equalTo(email);
+                        Query applesQuery = ref.orderByChild("email").equalTo(email);
 
                         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -125,13 +150,8 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
         }
 
         //회원탈퇴를 클릭하면 회원정보를 삭제한다.
-        if(view == textivewDelete) {
+        if(view == remove_btn) {
             deleteUser();
-        }
-
-        if(view == test_btn){
-            Intent intent = new Intent(this, Prac2.class);
-            startActivity(intent);
         }
     }
 }

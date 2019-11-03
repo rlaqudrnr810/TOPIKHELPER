@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Type_Solve_Activity">
+
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="듣기"
+        />
+
+    <Button
+        android:id="@+id/b2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="읽기"
+        />
+
+
+    <Button
+        android:id="@+id/b3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="빈칸"
+        />
+
+</LinearLayout>

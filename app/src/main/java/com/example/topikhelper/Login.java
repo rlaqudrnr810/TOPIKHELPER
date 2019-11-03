@@ -24,20 +24,27 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity implements View.OnClickListener {
     //public static int TIME_OUT = 1001;
     private long backKeyPressedTime = 0;
+
     private Toast toast;
     //define view objects
+
     private String email = "";
     private String password = "";
+
     EditText editTextEmail;
     EditText editTextPassword;
+
     Button buttonSignin;
+
     TextView textviewSingUp;
-    //TextView textviewMessage;
     TextView textviewFindPassword;
+
     ProgressDialog progressDialog;
+
     //define firebase object
     FirebaseAuth firebaseAuth;
     FirebaseUser mFirebaseUser;
+
     SharedPreferences pref;
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.topikhelper;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,9 +19,8 @@ public class Menu_Activity extends AppCompatActivity {
         private Button button2; // 한문제씩 풀기
         private Button button3; // 사전
         private Button button4; // 마이페이지
-        private Button button5; // 쿠키충전
 
-
+        ProgressDialog progressDialog;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +28,13 @@ public class Menu_Activity extends AppCompatActivity {
             setContentView(R.layout.activity_menu);
             mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
 
+            progressDialog = new ProgressDialog(this);
+
             button1 = findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Menu_Activity.this, Problem_Time_Activity.class);
+                    Intent intent = new Intent(Menu_Activity.this, VirtualTest_Select_Activity.class);
                     startActivity(intent); //액티비티 이동
                 }
             });
@@ -41,7 +43,7 @@ public class Menu_Activity extends AppCompatActivity {
             button2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Menu_Activity.this, Problem_No_Time_Activity.class);
+                    Intent intent = new Intent(Menu_Activity.this, One_Solve_Select_Activity.class);
                     startActivity(intent); //액티비티 이동
                 }
             });
@@ -64,27 +66,7 @@ public class Menu_Activity extends AppCompatActivity {
                 }
             });
 
-
-            button5 = findViewById(R.id.button5);
-            button5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Menu_Activity.this, Cookie_Activity.class);
-                    startActivity(intent); //액티비티 이동
-                }
-            });
-
-
         }
-
-/*
-    @Override
-    public void onBackPressed() {
-        mainBackPressCloseHandler.onBackPressed();
-    }
-
- */
-
 
 
     @Override

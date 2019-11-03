@@ -29,7 +29,7 @@ import java.net.URLEncoder;
 public class Dictionary_Select_Activity extends AppCompatActivity {
     private Button button_dailyvoca; // 단어장
     private Button button_searchvoca; // 번역기
-    private ListView daylistitem;
+    private ListView dailyvocalist;
     private DailyVocaAdapter adapter;
     private LinearLayout dictionaryLinear;
     boolean layout1 = false;
@@ -38,10 +38,12 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
     private ImageView translationButton;
     private TextView resultText;
     private String result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dictionary_select);daylistitem = findViewById(R.id.daylistitem);
+        setContentView(R.layout.activity_dictionary_select);
+        dailyvocalist = findViewById(R.id.dailyvocalist);
         dictionaryLinear = findViewById(R.id.dictionaryLinear);
         //final LinearLayout daylist = findViewById(R.id.daylist);
 
@@ -50,10 +52,10 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
         adapter = new DailyVocaAdapter();
 
         //이 부분은 나중에 디비에서 긁어온 자료로 다시 생성하세요
-        daylistitem.setAdapter(adapter);
+        dailyvocalist.setAdapter(adapter);
 
         for(int i = 1; i <= 100;i++){
-            adapter.addItem("Day0" + i);
+            adapter.addItem("Day" + i);
         }
 
 
@@ -61,21 +63,24 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!layout1) {
-                    daylistitem.setVisibility(View.VISIBLE);
+                    dailyvocalist.setVisibility(View.VISIBLE);
                     dictionaryLinear.setVisibility(View.GONE);
                     layout2 = false;
                 }
                 else{
-                    daylistitem.setVisibility(View.GONE);
+                    dailyvocalist.setVisibility(View.GONE);
                 }
                 layout1 = !layout1;
 
-                daylistitem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                dailyvocalist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView,
                                             View view, int position, long id) {
                         ListViewItem item = (ListViewItem) adapterView.getItemAtPosition(position) ;
+                        //view.setBackgroundColor(Color.CYAN);
+
 
                         Intent dva = new Intent(getApplicationContext(), Daily_Voca_Activity.class);
                         dva.putExtra("key1", item.getTitle());
@@ -91,7 +96,7 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!layout2) {
-                    daylistitem.setVisibility(View.GONE);
+                    dailyvocalist.setVisibility(View.GONE);
                     dictionaryLinear.setVisibility(View.VISIBLE);
                     layout1=false;
                 }
@@ -115,6 +120,11 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
     }
 
 
+
+
+
+
+    /****************************번역기 기능입니다.******************************/
     class BackgroundTask extends AsyncTask<Integer,Integer,Integer> {
         protected void onPreExecute(){
         }

@@ -107,6 +107,7 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
             //email과 password가 제대로 입력되어 있다면 계속 진행
             progressDialog.setMessage("Please Wait...");
             progressDialog.show();
+            
 
             firebaseAuth.createUserWithEmailAndPassword(email, password)        //회원 등록
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -122,7 +123,7 @@ public class Signup_Activity extends AppCompatActivity implements View.OnClickLi
                                             int id = rg.getCheckedRadioButtonId();                  //id는 성별
                                             RadioButton rb = (RadioButton) findViewById(id);
                                             sex = rb.getText().toString();
-                                            User user = new User(email, nickname, sex);
+                                            User user = new User(email, nickname, sex, "");
                                             mFirebaseDatabase.child(UserId).setValue(user);
 
                                             startActivity(new Intent(getApplicationContext(), Login.class));
