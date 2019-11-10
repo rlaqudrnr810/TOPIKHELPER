@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Random_Solve_Activity extends AppCompatActivity implements View.OnClickListener {
+public class One_Solve_Grammer_Activity extends AppCompatActivity implements View.OnClickListener {
     private Button b1;
     private Button b2;
     private Button b3;
@@ -35,22 +35,22 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
     int count = 0;
     int[] arr = shuffle();
 
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("모의고사2");
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_random_solve);
+        setContentView(R.layout.activity_one_solve_grammer);
 
         imageView = (ImageView) findViewById(R.id.img);
-        b1 = (Button) findViewById(R.id.one_random_b1);
-        b2 = (Button) findViewById(R.id.one_random_b2);
-        b3 = (Button) findViewById(R.id.one_random_b3);
-        b4 = (Button) findViewById(R.id.one_random_b4);
-        check = (Button) findViewById(R.id.one_random_check);
-        next = (Button) findViewById(R.id.one_random_next);
+        b1 = (Button) findViewById(R.id.one_grammer_b1);
+        b2 = (Button) findViewById(R.id.one_grammer_b2);
+        b3 = (Button) findViewById(R.id.one_grammer_b3);
+        b4 = (Button) findViewById(R.id.one_grammer_b4);
+        check = (Button) findViewById(R.id.one_grammer_check);
+        next = (Button) findViewById(R.id.one_grammer_next);
 
         b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
@@ -64,15 +64,14 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
         check.setOnClickListener(this);
         next.setOnClickListener(this);
 
-        String h = "1";
         String n = Integer.toString(arr[count]);
-        ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("문법").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = "";
                 url = dataSnapshot.child("url").getValue().toString();
 
-                Glide.with(Random_Solve_Activity.this).load(url)
+                Glide.with(One_Solve_Grammer_Activity.this).load(url)
                         .into(imageView);
             }
 
@@ -81,20 +80,19 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
 
             }
         });
-
     }
     public void restart(){
         arr = shuffle();
         count = 0;
-        String h = "1";
         String n = Integer.toString(arr[count]);
-        ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        ref.child("문법").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = "";
                 url = dataSnapshot.child("url").getValue().toString();
 
-                Glide.with(Random_Solve_Activity.this).load(url)
+                Glide.with(One_Solve_Grammer_Activity.this).load(url)
                         .into(imageView);
             }
 
@@ -103,6 +101,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
 
             }
         });
+
     }
     public void showNext(){
 
@@ -110,8 +109,8 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
         b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        if(count >= 10){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Random_Solve_Activity.this);
+        if(count >= 4){
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Grammer_Activity.this);
             alert_confirm.setMessage("RETRY?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -126,18 +125,16 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
                 }
             });
             alert_confirm.show();
-
         }
         else{
-            String h = "1";
             String n = Integer.toString(arr[count]);
-            ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+            ref.child("문법").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String url = "";
                     url = dataSnapshot.child("url").getValue().toString();
 
-                    Glide.with(Random_Solve_Activity.this).load(url)
+                    Glide.with(One_Solve_Grammer_Activity.this).load(url)
                             .into(imageView);
                 }
 
@@ -150,13 +147,12 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
 
     }
     public void checkAnswer(){
-        if(count >= 10){
+        if(count >= 4){
             Toast.makeText(this, "The end.", Toast.LENGTH_LONG).show();
         }
         else{
-            String h = "1";
             String n = Integer.toString(arr[count++]);
-            ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+            ref.child("문법").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String answer = dataSnapshot.child("정답").getValue().toString();
@@ -234,6 +230,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
             else{
                 Toast.makeText(this, "press the answer number", Toast.LENGTH_LONG).show();
             }
+
         }
         if (view == next) {
             if(sol) {
@@ -247,10 +244,10 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
 
     public int[] shuffle(){
 
-        int[] arr = new int[50];
+        int[] arr = new int[4];
 
         for(int i = 0; i < arr.length; i++){
-            arr[i] = i + 51;
+            arr[i] = i + 1;
         }
 
         for(int x=0;x<arr.length;x++){
@@ -261,9 +258,13 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
             arr[i] = arr[j];
             arr[j] = tmp;
         }
+        /*
         int[] ret = new int[10];
         for(int i = 0; i < 10; i++)
             ret[i] = arr[i];
+
         return ret;
+         */
+        return arr;
     }
 }

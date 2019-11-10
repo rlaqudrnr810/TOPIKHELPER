@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class VirtualTest_Select_Activity extends AppCompatActivity {
     ListView virtualtestlist;
     VirtualTestAdapter adapter;
+    int x;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +26,9 @@ public class VirtualTest_Select_Activity extends AppCompatActivity {
 
         virtualtestlist.setAdapter(adapter);
 
-        for(int i = 1; i <= 20;i++){
-            adapter.addItem(i+"회", i+"문제 그림이 들어감");
+        for(int i = 1; i <= 10;i++){
+            adapter.addItem(i+"회", "모의고사2");
         }
-
 
         virtualtestlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -38,8 +38,8 @@ public class VirtualTest_Select_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), VirtualTest_Activity.class);
                 //Intent intent = new Intent(getApplicationContext(), VirtualTest_Two_Activity.class);
 
-                intent.putExtra("key2", item.getTitle());
-                intent.putExtra("key3", item.getText());
+                intent.putExtra("num", item.getTitle());
+                intent.putExtra("dbname", item.getText());
                 startActivity(intent);
             }
         });

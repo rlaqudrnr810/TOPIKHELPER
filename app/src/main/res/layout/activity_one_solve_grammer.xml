@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFCF6"
-    tools:context=".Random_Solve_Activity">
+    tools:context=".One_Solve_Grammer_Activity">
 
 
     <!-- 상단바 -->
@@ -33,7 +33,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"
                 android:gravity="center|left"
-                android:text="Type Test - Reading"
+                android:text="Type Test - Grammar"
                 android:textColor="#070707"
                 android:textSize="25sp"
                 android:textStyle="normal" />
@@ -74,7 +74,7 @@
                     android:orientation="vertical"
                     android:gravity="center">
                     <Button
-                        android:id="@+id/one_reading_b1"
+                        android:id="@+id/one_grammer_b1"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="#FFEEE8AA"
@@ -83,7 +83,7 @@
                         android:textSize="15dp"
                         android:textStyle="bold"/>
                     <Button
-                        android:id="@+id/one_reading_b2"
+                        android:id="@+id/one_grammer_b2"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="#FFEEE8AA"
@@ -93,7 +93,7 @@
                         android:textSize="15dp"
                         android:textStyle="bold"/>
                     <Button
-                        android:id="@+id/one_reading_b3"
+                        android:id="@+id/one_grammer_b3"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="#FFEEE8AA"
@@ -103,7 +103,7 @@
                         android:textSize="15dp"
                         android:textStyle="bold"/>
                     <Button
-                        android:id="@+id/one_reading_b4"
+                        android:id="@+id/one_grammer_b4"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="#FFEEE8AA"
@@ -121,7 +121,7 @@
                     android:layout_weight="4">
 
                     <Button
-                        android:id="@+id/one_reading_check"
+                        android:id="@+id/one_grammer_check"
                         android:text="check"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                         android:textSize="15dp"
                         android:textStyle="bold"/>
                     <Button
-                        android:id="@+id/one_reading_next"
+                        android:id="@+id/one_grammer_next"
                         android:text="next"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"

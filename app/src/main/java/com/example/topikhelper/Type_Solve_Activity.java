@@ -18,9 +18,9 @@ public class Type_Solve_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_solve);
 
-        type_listening = findViewById(R.id.b1);
-        type_reading = findViewById(R.id.b2);
-        type_grammer = findViewById(R.id.b3);
+        type_listening = findViewById(R.id.type_b1);
+        type_reading = findViewById(R.id.type_b2);
+        type_grammer = findViewById(R.id.type_b3);
 
         type_listening.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +33,13 @@ public class Type_Solve_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Type_Solve_Activity.this, One_Solve_Reading_Activity.class);
+                startActivity(intent); //액티비티 이동
+            }
+        });
+        type_grammer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Type_Solve_Activity.this, One_Solve_Grammer_Activity.class);
                 startActivity(intent); //액티비티 이동
             }
         });
