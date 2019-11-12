@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+    <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VirtualTest_Activity">
+    android:background="#FFFCF6"
+    tools:context=".VirtualTest_Wrong_Question_Activity">
 
 
     <!-- 상단바 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFCF6"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
-            android:background="#F1C40F"
-            android:orientation="vertical">
+            android:background="#F1C40F">
 
             <TextView
                 android:id="@+id/textView6"
@@ -31,10 +32,11 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"
                 android:gravity="center|left"
-                android:text="Type Test - Listening"
+                android:text="Virtual Test - Wrong Question"
                 android:textColor="#070707"
                 android:textSize="25sp"
                 android:textStyle="normal" />
+
         </LinearLayout>
 
 
@@ -42,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#FFFFFFFF"
+            android:background="#FFFCF6"
             android:orientation="vertical">
 
             <LinearLayout
@@ -76,7 +78,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFFFFFFF"
+                android:background="#FFFFFF"
                 android:orientation="vertical"
                 android:layout_weight="1">
 
@@ -89,10 +91,7 @@
                     <ImageView
                         android:id="@+id/img"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:scaleType="fitStart"
-                        android:adjustViewBounds="true"/>
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
 
@@ -101,7 +100,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:background="#FFFCF6"
                     android:layout_weight="1.5"
                     android:orientation="vertical">
 
@@ -112,7 +110,7 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/Listening_b1"
+                            android:id="@+id/b1"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:background="#FFEEE8AA"
@@ -121,7 +119,7 @@
                             android:textSize="15dp"
                             android:textStyle="bold"/>
                         <Button
-                            android:id="@+id/Listening_b2"
+                            android:id="@+id/b2"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:background="#FFEEE8AA"
@@ -131,7 +129,7 @@
                             android:textSize="15dp"
                             android:textStyle="bold"/>
                         <Button
-                            android:id="@+id/Listening_b3"
+                            android:id="@+id/b3"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:background="#FFEEE8AA"
@@ -141,7 +139,7 @@
                             android:textSize="15dp"
                             android:textStyle="bold"/>
                         <Button
-                            android:id="@+id/Listening_b4"
+                            android:id="@+id/b4"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:background="#FFEEE8AA"
@@ -155,41 +153,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
-                        android:orientation="horizontal"
                         android:gravity="center"
                         android:padding="2dp">
                         <Button
                             android:id="@+id/pre"
                             android:text="pre"
-                            android:layout_width="match_parent"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/btn_orange_click"
-                            android:layout_margin="3dp"
-                            android:layout_weight="1.5"
+                            android:background="@drawable/btn_orange"
                             android:textColor="#000000"
                             android:textSize="15dp"
                             android:textStyle="bold"/>
                         <Button
-                            android:id="@+id/check"
-                            android:text="check"
-                            android:layout_width="match_parent"
+                            android:id="@+id/solution"
+                            android:text="go to solution"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:layout_margin="3dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/btn_orange_click"
+                            android:background="@drawable/btn_orange"
                             android:textColor="#000000"
+                            android:onClick="mOnPopupClick"
                             android:textSize="15dp"
                             android:textStyle="bold"/>
                         <Button
                             android:id="@+id/next"
                             android:text="next"
-                            android:layout_width="match_parent"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:layout_margin="3dp"
-                            android:layout_weight="1.5"
-                            android:background="@drawable/btn_orange_click"
+                            android:background="@drawable/btn_orange"
                             android:textColor="#000000"
                             android:textSize="15dp"
                             android:textStyle="bold"/>
@@ -198,4 +190,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>

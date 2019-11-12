@@ -39,7 +39,7 @@ public class Type_Solve_Activity extends AppCompatActivity {
         type_grammer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Type_Solve_Activity.this, One_Solve_Grammer_Activity.class);
+                Intent intent = new Intent(Type_Solve_Activity.this, One_Solve_Grammar_Activity.class);
                 startActivity(intent); //액티비티 이동
             }
         });

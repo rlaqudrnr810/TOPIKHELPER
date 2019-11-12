@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class One_Solve_Select_Activity extends AppCompatActivity {
     private Button problem_random; // 랜덤별 풀기 버튼 클릭 이벤트
     private Button problem_type;  // 유형별 풀기 버튼 클릭 이벤트
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +19,7 @@ public class One_Solve_Select_Activity extends AppCompatActivity {
 
         problem_random = findViewById(R.id.problem_random);
         problem_type = findViewById(R.id.problem_type);
+
         problem_random.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -25,6 +27,7 @@ public class One_Solve_Select_Activity extends AppCompatActivity {
                 startActivity(intent); //액티비티 이동
             }
         });
+
         problem_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,4 +37,5 @@ public class One_Solve_Select_Activity extends AppCompatActivity {
         });
 
     }
+
 }

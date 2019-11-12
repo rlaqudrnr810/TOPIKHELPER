@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:hint="원하는 회차를 선택하세요. 시간이 측정됩니다."
+                android:hint="Choose what you want. The time will be measured."
                 android:textColorHint="#FF000000"
                 android:textSize="15sp" />
 

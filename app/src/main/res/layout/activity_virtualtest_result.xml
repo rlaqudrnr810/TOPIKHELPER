@@ -50,15 +50,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="9">
+                android:layout_weight="9"
+                android:padding="10dp"
+                android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="The test is over. Check your score."
+                    android:textSize="15sp"
+                    android:textColor="#070707"/>
+                <TextView
+                    android:id="@+id/score"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="수고하셨습니다. 결과를 확인하세요."
+                    android:layout_weight="2"
+                    android:text="내점수 / 100"
                     android:textColor="#070707"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="normal"/>
             </LinearLayout>
 
@@ -78,7 +89,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="틀린문제번호"
+                        android:text="Count"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                     <Button
@@ -86,7 +97,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="정답"
+                        android:text="Problem#"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                     <Button
@@ -94,7 +105,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="내가 찍은 답"
+                        android:text="Answer"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                     <Button
@@ -102,7 +113,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="문제보러가기"
+                        android:text="My answer"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                 </LinearLayout>
@@ -121,53 +132,13 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:layout_margin="5dp"
+                            android:divider="#FAFAFA"
+                            android:dividerHeight="4dp"
                             android:elevation="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <ListView
-                            android:id="@+id/list2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_marginLeft="20dp"
-                            android:elevation="10dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"/>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <ListView
-                            android:id="@+id/list3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginLeft="20dp"
-                            android:elevation="10dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <ListView
-                            android:id="@+id/list4"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_margin="5dp"
-                            android:elevation="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -175,7 +146,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="9"
-                    android:layout_margin="8dp">
+                    >
+                    <Button
+                        android:id="@+id/wrong"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Check for wrong problem"
+                        android:textColor="#FF000000"
+                        android:background="@drawable/btn_roundsoft"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

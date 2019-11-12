@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,44 +23,42 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.IOException;
 
 public class One_Solve_Listening_Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
 
     private MediaPlayer mMediaplayer;
-    int bk = -1;
-    String s = "";
+
     private Button play;
     private Button stop;
     private Button pause;
-    FirebaseAuth firebaseAuth;
-
     private Button b1;
     private Button b2;
     private Button b3;
     private Button b4;
     private Button check;
     private Button next;
-
+    private Button pre;
+    private Button solution;
     private ImageView imageView;
 
-    boolean sol = false;
-    boolean[] ff = new boolean[4];
-    boolean playCheck;
-    int last = -1;
+    boolean c = false;
+
+    int index = 0;
     int count = 0;
     int[] arr = shuffle();
-    //boolean[] pressed = new boolean[3];
+
+    String[] url = new String[10];
+    String[] mp3 = new String[10];
+    int[] answer = new int[10];
+    int[] userAnswer = new int[10];
+    boolean[] bk = new boolean[10];
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
 
     FirebaseUser firebaseUser;
+    FirebaseAuth firebaseAuth;
 
-    //private MediaPlayer mediaPlayer;
 
-//    private int playbackPosition =0;
+    private int playbackPosition =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +68,12 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         mMediaplayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-
+        mMediaplayer = null;
         //ref_two.child(firebaseUser.getUid()).child("history").setValue(url);
         imageView = (ImageView) findViewById(R.id.img);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
-        pause = (Button) findViewById(R.id.stop);
+        pause = (Button) findViewById(R.id.pause);
 
         b1 = (Button) findViewById(R.id.Listening_b1);
         b2 = (Button) findViewById(R.id.Listening_b2);
@@ -86,42 +81,15 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         b4 = (Button) findViewById(R.id.Listening_b4);
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
+        pre = (Button) findViewById(R.id.pre);
+        solution = (Button) findViewById(R.id.solution);
 
-        b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+        setButton(0);
 
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                play();
-            }
-        });
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stop();
-            }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pause();
-            }
-        });
-
-
-/*
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    if(mediaPlayer!=null){
-                        mediaPlayer.stop();
-                        mediaPlayer = null;
-                    }
                     playAudio();
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
@@ -129,14 +97,15 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                 }
             }
         });
+
         pause.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if(mediaPlayer !=null){
+                if(mMediaplayer !=null){
                     //현재 재생위치 저장
-                    playbackPosition = mediaPlayer.getCurrentPosition();
-                    mediaPlayer.pause();
+                    playbackPosition = mMediaplayer.getCurrentPosition();
+                    mMediaplayer.pause();
                 }
             }
         });
@@ -145,26 +114,22 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
 
             @Override
             public void onClick(View v) {
-                if(mediaPlayer !=null && !mediaPlayer.isPlaying()){
-                    mediaPlayer.start();
-                    mediaPlayer.seekTo(playbackPosition);
+                if(mMediaplayer != null){
+                    playbackPosition = 0;
+                    mMediaplayer.stop();
+                    mMediaplayer = null;
                 }
             }
         });
 
- */
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!sol){
-                    if(last != -1)
-                        ff[last] = false;
-                    last = 0;
-                    ff[last] = true;
-                    b1.setBackgroundColor(Color.RED);
-                    b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+                if(!bk[count]){
+                    c = true;
+                    setButton(1);
+                    userAnswer[count] = 1;
                 }
             }
         });
@@ -173,15 +138,10 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!sol){
-                    if(last != -1)
-                        ff[last] = false;
-                    last = 1;
-                    ff[last] = true;
-                    b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b2.setBackgroundColor(Color.RED);
-                    b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+                if(!bk[count]){
+                    c = true;
+                    setButton(2);
+                    userAnswer[count] = 2;
                 }
             }
         });
@@ -189,15 +149,10 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!sol){
-                    if(last != -1)
-                        ff[last] = false;
-                    last = 2;
-                    ff[last] = true;
-                    b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b3.setBackgroundColor(Color.RED);
-                    b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+                if(!bk[count]){
+                    c = true;
+                    setButton(3);
+                    userAnswer[count] = 3;
                 }
             }
         });
@@ -205,30 +160,35 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         b4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!sol){
-                    if(last != -1)
-                        ff[last] = false;
-                    last = 3;
-                    ff[last] = true;
-                    b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-                    b4.setBackgroundColor(Color.RED);
+                if(!bk[count]){
+                    c = true;
+                    setButton(4);
+                    userAnswer[count] = 4;
                 }
             }
         });
 
+        pre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mMediaplayer != null && mMediaplayer.isPlaying())
+                    mMediaplayer.stop();
+                mMediaplayer = null;
+                showPre();
+            }
+        });
+
+
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!sol){
-                    if(last != -1){
-                        sol = true;
-                        last = -1;
+                if(!bk[count]){
+                    if(c){
+                        c = false;
                         checkAnswer();
                     }
                     else{
-                        viewMessage2();
+                        viewMessage();
                     }
                 }
             }
@@ -237,44 +197,58 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sol) {
-                    sol = false;
-                    showNext();
-                }
-                else
-                    viewMessage1();
+                if(mMediaplayer != null && mMediaplayer.isPlaying())
+                    mMediaplayer.stop();
+                mMediaplayer = null;
+                showNext();
             }
         });
-        showNext();
-/*
-        new Handler().postDelayed(new Runnable()
-        {
+
+        ref.child("듣기").child(arr[0]+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void run()
-            {
-                //여기에 딜레이 후 시작할 작업들을 입력
-                Log.d("빠끄", s);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String url = "";
+                url = dataSnapshot.child("url").getValue().toString();
+                mp3[0] = "";
+                mp3[0] = dataSnapshot.child("mp3").getValue().toString();
+                Glide.with(One_Solve_Listening_Activity.this).load(url)
+                        .into(imageView);
             }
-        }, 3000);
 
- */
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        /*
-        try {                   //딜레이
-            Thread.sleep(3000);
-            Log.d("빠브",s );
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            }
+        });
+        getData();
+    }
+
+    public void getData(){
+
+        for(int i = 0; i < 10; i++) {
+            ref.child("듣기").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String s = "";
+                    s = dataSnapshot.child("정답").getValue().toString();
+                    answer[index] = Integer.parseInt(s);
+                    url[index] = dataSnapshot.child("url").getValue().toString();
+                    mp3[index] = dataSnapshot.child("mp3").getValue().toString();
+                    index++;
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
+    }
 
-         */
-    }
-    public void viewMessage1(){
-        Toast.makeText(this, "please solve the question", Toast.LENGTH_LONG).show();
-    }
-    public void viewMessage2(){
+    public void viewMessage(){
         Toast.makeText(this, "press the answer number", Toast.LENGTH_LONG).show();
     }
+
     public void restart(){
         arr = shuffle();
         count = 0;
@@ -295,12 +269,10 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
             }
         });
     }
-    public void showNext(){
 
-        b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-        b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+    public void showNext(){
+        setButton(0);
+        count++;
         if(count >= 10){
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Listening_Activity.this);
             alert_confirm.setMessage("RETRY?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -317,63 +289,50 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                 }
             });
             alert_confirm.show();
-
         }
         else{
-            String n = Integer.toString(arr[count]);
-            playCheck = false;
-            mMediaplayer.stop();
-            mMediaplayer.reset();
-            ref.child("듣기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String url = "";
-                    url = dataSnapshot.child("url").getValue().toString();
-                    s = dataSnapshot.child("mp3").getValue().toString();
-                    Glide.with(One_Solve_Listening_Activity.this).load(url)
-                            .into(imageView);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            Glide.with(One_Solve_Listening_Activity.this).load(url[count]).into(imageView);
+            setButton(userAnswer[count]);
+            if(bk[count]){
+                checkAnswer();
+            }
+            if(answer[count] != 0)
+                c = true;
         }
     }
+
+    public void showPre(){
+        if(count == 0)
+            Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
+        else{
+            count--;
+            Glide.with(One_Solve_Listening_Activity.this).load(url[count])
+                    .into(imageView);
+            setButton(userAnswer[count]);
+            if(bk[count])
+                checkAnswer();
+        }
+    }
+
     public void checkAnswer(){
-        if(count >= 10){
-            Toast.makeText(this, "The end.", Toast.LENGTH_LONG).show();
-        }
-        else{
-            String n = Integer.toString(arr[count++]);
-            ref.child("듣기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String answer = dataSnapshot.child("정답").getValue().toString();
-                    int a = Integer.parseInt(answer);
-                    switch(a - 1) {
-                        case 0:
-                            b1.setBackgroundColor(Color.BLUE);
-                            break;
-                        case 1:
-                            b2.setBackgroundColor(Color.BLUE);
-                            break;
-                        case 2:
-                            b3.setBackgroundColor(Color.BLUE);
-                            break;
-                        case 3:
-                            b4.setBackgroundColor(Color.BLUE);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+        if(count < 10){
+            bk[count] = true;
+            switch(answer[count]){
+                case 1:
+                    b1.setBackgroundColor(Color.BLUE);
+                    break;
+                case 2:
+                    b2.setBackgroundColor(Color.BLUE);
+                    break;
+                case 3:
+                    b3.setBackgroundColor(Color.BLUE);
+                    break;
+                case 4:
+                    b4.setBackgroundColor(Color.BLUE);
+            }
         }
     }
+
     public int[] shuffle(){
 
         int[] arr = new int[50];    //숫자는 데이터(듣기문제) 갯수만큼
@@ -396,51 +355,68 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         return ret;
     }
 
-    public void play(){
-        if(!playCheck){
-            final FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl(s);
-            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    try {
-                        // Download url of file
-                        final String url = uri.toString();
-                        mMediaplayer.setDataSource(url);
-                        // wait for media player to get prepare
-                        mMediaplayer.setOnPreparedListener(One_Solve_Listening_Activity.this);
-                        mMediaplayer.prepareAsync();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    public void setButton(int n){
 
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i("TAG", e.getMessage());
-                        }
-                    });
+        b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+        b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+        b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+        b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
+
+        switch(n){
+            case 1:
+                b1.setBackgroundColor(Color.RED);
+                break;
+            case 2:
+                b2.setBackgroundColor(Color.RED);
+                break;
+            case 3:
+                b3.setBackgroundColor(Color.RED);
+                break;
+            case 4:
+                b4.setBackgroundColor(Color.RED);
         }
     }
-    public void pause(){
-        playCheck = false;
-        mMediaplayer.pause();
-    }
-    public void stop(){
-        mMediaplayer.stop();
-        playCheck = false;
+
+    private void playAudio() throws Exception{
+        if(mMediaplayer == null) {
+            mMediaplayer = new MediaPlayer();
+
+            mMediaplayer.setDataSource(mp3[count]);
+            mMediaplayer.prepare();
+            mMediaplayer.start();
+        }
+        else{
+            mMediaplayer.start();
+            mMediaplayer.seekTo(playbackPosition);
+        }
+
     }
 
+    protected void onDestroy(){
+        killMediaPlayer();
+        super.onDestroy();
+    }
 
+    private void killMediaPlayer(){
+        if(mMediaplayer !=null && !mMediaplayer.isPlaying()){
+            try{
+                mMediaplayer.release();
+            }catch(Exception e){
+                Log.e("error",e.getMessage());
+            }
+        }
+    }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
     }
+
     public void onBackPressed() {
-        mMediaplayer.stop();
+        if(mMediaplayer != null && mMediaplayer.isPlaying()) {
+            mMediaplayer.stop();
+            mMediaplayer = null;
+        }
         finish();
         super.onBackPressed();
 

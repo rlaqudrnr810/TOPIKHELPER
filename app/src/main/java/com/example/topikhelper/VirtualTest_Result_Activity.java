@@ -2,7 +2,8 @@ package com.example.topikhelper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,30 +12,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class VirtualTest_Result_Activity extends AppCompatActivity {
     private ListView resultList, resultList2, resultList3;
-    private TextView textlist;
+    private TextView score;
+
+    private Button wrong;
 
     Intent intent;
     int[] my;
     int[] op;
     int[] q;
-    String dbname;
-    String num;
-    Bundle extras;
-    DatabaseReference ref;
+    private String[] url;
+    private String[] mp3;
+    private String dbname;
+    private String num;
+    private Bundle extras;
+    private DatabaseReference ref;
+    private int count=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_virtualtest_result);
+
+        VirtualTestResultAdapter adapter;
+        adapter = new VirtualTestResultAdapter();
+
         resultList = findViewById(R.id.list);
-        resultList2 = findViewById(R.id.list2);
-        resultList3 = findViewById(R.id.list3);
-        textlist = findViewById(R.id.textview);
+        resultList.setAdapter(adapter);
+        score = findViewById(R.id.score);
+        wrong = findViewById(R.id.wrong);
 
 
         intent = getIntent();
@@ -44,57 +51,36 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
         my = extras.getIntArray("my");
         op = extras.getIntArray("op");
         q = extras.getIntArray("q");
+        url=extras.getStringArray("url");
+        mp3=extras.getStringArray("mp3");
+
+        int x = 200 - (my.length * 2);
+        String str = Integer.toString(x);
+
+        score.setText(str + " / 200");
+
         ref = FirebaseDatabase.getInstance().getReference(dbname);
 
-
-
-        List<String> data = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_textview, data);
-        resultList.setAdapter(adapter);
-        for(int i=0; i<q.length; i++){
+        for(int i=0; i<q.length; i++) {
             String s = Integer.toString(q[i]);
-            data.add(s + "번");
-           /* System.out.println("55555555555");
-            System.out.println(one[i]);
-            System.out.println(one[i]);
-            System.out.println("222222222222");
-            */
+            adapter.addItem(count + "",s + "번", Integer.toString(op[i]), Integer.toString(my[i]));
+            count++;
         }
-        adapter.notifyDataSetChanged();
 
-
-
-        List<String> data2 = new ArrayList<>();
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.list_textview2, data2);
-        resultList2.setAdapter(adapter2);
-        for(int i=0; i<op.length; i++){
-            data2.add(Integer.toString(op[i]));
-        }
-        adapter2.notifyDataSetChanged();
-
-
-
-        List<String> data3 = new ArrayList<>();
-        ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, R.layout.list_textview2, data3);
-        resultList3.setAdapter(adapter3);
-        for(int i=0; i<my.length; i++){
-            data3.add(Integer.toString(my[i]));
-        }
-        adapter3.notifyDataSetChanged();
-
-
-
-
-
-
-//resultList.setAdapter(adapter);
-
-        //adapter= new VirtualTestResultAdapter();
-        //ArrayList<VirtualTestResult> data = new ArrayList<>();
-        //resultList.setAdapter(adapter);
-        //adapter.addItem("1", "1","2");
-        //adapter.notifyDataSetChanged();
-
+        wrong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(VirtualTest_Result_Activity.this, VirtualTest_Wrong_Question_Activity.class);
+                i.putExtra("num", num);
+                i.putExtra("dbname", dbname);
+                i.putExtra("my", my);
+                i.putExtra("op", op);
+                i.putExtra("q", q);
+                i.putExtra("url", url);
+                i.putExtra("mp3", mp3);
+                startActivity(i);
+            }
+        });
 
     }
 }

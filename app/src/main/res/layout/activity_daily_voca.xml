@@ -1,61 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFCF6"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp"
+    android:orientation="vertical"
     tools:context=".Daily_Voca_Activity">
 
-    <!-- 상단바 -->
+
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="409dp"
-        android:layout_height="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
         android:background="#F1C40F"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="Dictionary"
-            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center|left"
+            android:text="Daily Voca"
             android:textColor="#070707"
-            android:textSize="20sp" />
+            android:textSize="25sp"
+            android:textStyle="normal" />
     </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <!--day 표시-->
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/customdaytext"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@drawable/btn_round"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold"/>
+        android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:id="@+id/listView" />
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -2,6 +2,8 @@ package com.example.topikhelper;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,13 @@ import java.util.ArrayList;
 public class DailyVocaAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
+    private SharedPreferences pref;
+    private Context context;
 
     // ListViewAdapter의 생성자
-    public DailyVocaAdapter() {
-
+    public DailyVocaAdapter(Context context) {
+        this.context = context;
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
@@ -39,12 +44,22 @@ public class DailyVocaAdapter extends BaseAdapter {
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
+        //CheckBox chkbox = convertView.findViewById(R.id.dayChkBox);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         titleTextView.setText(listViewItem.getTitle());
+
+        //해당 날짜에 해당하는 정수가 30보다 작으면 체크박스는 빈칸 클일은 없으니 같아지면 체크상태
+        if(pref.getInt(listViewItem.getTitle(), 0) < 30){
+            // chkbox.setChecked(false);
+        }
+        else{
+            //chkbox.setChecked(true);
+        }
+
         return convertView;
     }
 
@@ -64,6 +79,7 @@ public class DailyVocaAdapter extends BaseAdapter {
     public void addItem(String title) {
         ListViewItem item = new ListViewItem();
         item.setTitle(title);
+
         listViewItemList.add(item);
     }
 }

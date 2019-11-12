@@ -92,7 +92,6 @@
                         android:background="#FAFAFA"
                         android:elevation="10dp"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="5dp"
                         android:visibility="gone"
                         >
 
@@ -120,13 +119,13 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/shape"
                                 android:ems="10"
-                                android:hint="sentence"
+                                android:hint="Search"
                                 android:layout_margin="25dp"
                                 android:inputType="text"
                                 android:textColor="#FF000000"
-                                android:textColorHint="#FFC0C0C0"
+                                android:textColorHint="#FF000000"
                                 android:textSize="25dp"
-                                android:textStyle="italic" />
+                                android:textStyle="italic"/>
 
                             <ImageView
                                 android:id="@+id/translationButton"
@@ -146,75 +145,12 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/shape"
                                 android:ems="10"
-                                android:hint="Result"
+                                android:text="Result"
                                 android:textColor="#FF000000"
-                                android:textColorHint="#FFC0C0C0"
                                 android:textSize="25dp"
                                 android:textStyle="italic" />
 
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/practice"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="단어 api 연습. 일단 만들어둠"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        >
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="input the korean for translation"
-                            android:textColor="#FF000000"
-                            android:textSize="20dp"
-                            android:textStyle="italic"/>
-
-                        <EditText
-                            android:id="@+id/practice1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/shape"
-                            android:ems="10"
-                            android:hint="sentence"
-                            android:layout_margin="25dp"
-                            android:inputType="text"
-                            android:textColor="#FF000000"
-                            android:textColorHint="#FFC0C0C0"
-                            android:textSize="25dp"
-                            android:textStyle="italic" />
-
-                        <ImageView
-                            android:id="@+id/practice2"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:layout_marginBottom="20dp"
-                            android:src="@drawable/translation" />
-
-                        <TextView
-                            android:id="@+id/practice3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/shape"
-                            android:ems="10"
-                            android:hint="Result"
-                            android:textColor="#FF000000"
-                            android:textColorHint="#FFC0C0C0"
-                            android:textSize="25dp"
-                            android:textStyle="italic" />
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>

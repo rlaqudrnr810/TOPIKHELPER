@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class One_Solve_Reading_Activity extends AppCompatActivity {
+public class One_Solve_Grammar_Activity extends AppCompatActivity {
     private Button b1;
     private Button b2;
     private Button b3;
@@ -49,17 +49,17 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one_solve_reading);
+        setContentView(R.layout.activity_one_solve_grammar);
 
         imageView = (ImageView) findViewById(R.id.img);
-        b1 = (Button) findViewById(R.id.one_reading_b1);
-        b2 = (Button) findViewById(R.id.one_reading_b2);
-        b3 = (Button) findViewById(R.id.one_reading_b3);
-        b4 = (Button) findViewById(R.id.one_reading_b4);
+        b1 = (Button) findViewById(R.id.one_grammar_b1);
+        b2 = (Button) findViewById(R.id.one_grammar_b2);
+        b3 = (Button) findViewById(R.id.one_grammar_b3);
+        b4 = (Button) findViewById(R.id.one_grammar_b4);
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
-        //solution = (Button) findViewById(R.id.pre);
+        solution = (Button) findViewById(R.id.solution);
 
         setButton(0);
 
@@ -139,12 +139,12 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
             }
         });
 
-        ref.child("읽기").child(arr[0]+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("문법").child(arr[0]+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = "";
                 url = dataSnapshot.child("url").getValue().toString();
-                Glide.with(One_Solve_Reading_Activity.this).load(url)
+                Glide.with(One_Solve_Grammar_Activity.this).load(url)
                         .into(imageView);
             }
 
@@ -162,13 +162,13 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
         count = 0;
         String n = Integer.toString(arr[count]);
 
-        ref.child("읽기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("문법").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = "";
                 url = dataSnapshot.child("url").getValue().toString();
 
-                Glide.with(One_Solve_Reading_Activity.this).load(url)
+                Glide.with(One_Solve_Grammar_Activity.this).load(url)
                         .into(imageView);
             }
 
@@ -183,7 +183,7 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
     public void getData(){
 
         for(int i = 0; i < 10; i++) {
-            ref.child("읽기").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            ref.child("문법").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String s = "";
@@ -205,7 +205,7 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
         setButton(0);
         count++;
         if(count >= 10){
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Reading_Activity.this);
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Grammar_Activity.this);
             alert_confirm.setMessage("RETRY?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -222,7 +222,7 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
             alert_confirm.show();
         }
         else{
-            Glide.with(One_Solve_Reading_Activity.this).load(url[count]).into(imageView);
+            Glide.with(One_Solve_Grammar_Activity.this).load(url[count]).into(imageView);
             setButton(userAnswer[count]);
             if(bk[count]){
                 checkAnswer();
@@ -237,7 +237,7 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
             Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
         else{
             count--;
-            Glide.with(One_Solve_Reading_Activity.this).load(url[count])
+            Glide.with(One_Solve_Grammar_Activity.this).load(url[count])
                     .into(imageView);
             setButton(userAnswer[count]);
             if(bk[count])
@@ -306,6 +306,13 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
             arr[i] = arr[j];
             arr[j] = tmp;
         }
+        /*
+        int[] ret = new int[10];
+        for(int i = 0; i < 10; i++)
+            ret[i] = arr[i];
+
+        return ret;
+         */
         return arr;
     }
 }
