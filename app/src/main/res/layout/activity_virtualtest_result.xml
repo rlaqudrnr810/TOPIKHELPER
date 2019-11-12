@@ -97,7 +97,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="Problem#"
+                        android:text="Question#"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                     <Button
