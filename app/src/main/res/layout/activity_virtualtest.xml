@@ -52,9 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="start"
-                    android:textSize="8sp" />
-
+                    android:layout_margin="12dp"
+                    android:background="@drawable/timer"/>
             </LinearLayout>
         </LinearLayout>
 
