@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:id="@+id/title2"
-        android:textSize="15dp"
+        android:textSize="12dp"
         android:textColor="#FFDC143C"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"

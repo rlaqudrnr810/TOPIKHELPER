@@ -51,7 +51,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         final DailyVocaItem item = mData.get(position);
 
         holder.title1.setText(item.getName());
-        holder.title2.setText(item.getName());
+        holder.title2.setText("["+item.getPronun()+"]");
         holder.title3.setText(item.getMeaning());
 
         //item의 getName을 키값으로 불러옴 값이 있다면 해당값을 가져오고 없으면 false(오른쪽 인자가 디폴트)

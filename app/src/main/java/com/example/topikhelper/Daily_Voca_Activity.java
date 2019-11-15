@@ -92,7 +92,7 @@ public class Daily_Voca_Activity extends AppCompatActivity {
 
 
                 title1.setText(items.getName());
-                title2.setText(items.getName());
+                title2.setText(items.getPronun());
                 title3.setText(items.getMeaning());
                 frequency.setText(items.getFrequency());
 
