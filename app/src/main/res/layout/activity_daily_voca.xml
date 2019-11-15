@@ -16,8 +16,11 @@
         android:layout_height="match_parent"
         android:layout_weight="10"
         android:background="#F1C40F"
-        android:orientation="vertical">
-
+        android:orientation="horizontal">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
@@ -31,8 +34,16 @@
             android:textColor="#070707"
             android:textSize="25sp"
             android:textStyle="normal" />
+</LinearLayout>
     </LinearLayout>
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -41,5 +52,21 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:id="@+id/listView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8">
+            <Button
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:text="Go to daily-test"
+                android:textColor="#FF000000"
+                android:background="@drawable/btn_orange_click"/>
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
