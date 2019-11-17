@@ -1,98 +1,93 @@
 package com.example.topikhelper;
 
-import android.media.MediaPlayer;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class One_Solve_Writing_Activity extends AppCompatActivity implements Runnable {
+public class One_Solve_Writing_Activity extends AppCompatActivity {
+    private Button check;
+    private Button next;
+    private Button pre;
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
-    SeekBar seekBar;
-    boolean wasPlaying = false;
-    Button fab;
-    //FloatingActionButton fab;
+    private ImageView imageView;
+
+    String[] url = new String[10];
+    int[] answer = new int[10];
+    int[] userAnswer = new int[10];
+    boolean[] bk = new boolean[10];
+
+    boolean c = false;
+
+    int index = 0;
+    int count = 0;
+    int[] arr = shuffle();
+
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
+    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
 
-    String s = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_solve_writing);
 
-        getData();
-        fab = findViewById(R.id.button);
+        imageView = (ImageView) findViewById(R.id.img);
+        check = (Button) findViewById(R.id.check);
+        next = (Button) findViewById(R.id.next);
+        pre = (Button) findViewById(R.id.pre);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playSong();
+                showPre();
             }
         });
 
-        final TextView seekBarHint = findViewById(R.id.textView);
 
-        seekBar = findViewById(R.id.seekbar);
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        check.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-                seekBarHint.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-                seekBarHint.setVisibility(View.VISIBLE);
-                int x = (int) Math.ceil(progress / 1000f);
-
-                if (x < 10)
-                    seekBarHint.setText("0:0" + x);
-                else
-                    seekBarHint.setText("0:" + x);
-
-                double percent = progress / (double) seekBar.getMax();
-                int offset = seekBar.getThumbOffset();
-                int seekWidth = seekBar.getWidth();
-                int val = (int) Math.round(percent * (seekWidth - 2 * offset));
-                int labelWidth = seekBarHint.getWidth();
-                seekBarHint.setX(offset + seekBar.getX() + val
-                        - Math.round(percent * offset)
-                        - Math.round(percent * labelWidth / 2));
-
-                if (progress > 0 && mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                    clearMediaPlayer();
-                    //fab.setImageDrawable(ContextCompat.getDrawable(One_Solve_Writing_Activity.this, android.R.drawable.ic_media_play));
-                    One_Solve_Writing_Activity.this.seekBar.setProgress(0);
-                }
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    mediaPlayer.seekTo(seekBar.getProgress());
+            public void onClick(View view) {
+                if(!bk[count]){
+                    if(c){
+                        c = false;
+                    }
+                    else{
+                        viewMessage();
+                    }
                 }
             }
         });
-    }
 
-    public void getData(){
-        ref.child("듣기").child("1번").addListenerForSingleValueEvent(new ValueEventListener() {
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNext();
+            }
+        });
+
+        ref.child("읽기").child(arr[0]+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                s = String.valueOf(dataSnapshot.child("mp3").getValue());
+                String url = "";
+                url = dataSnapshot.child("url").getValue().toString();
+                Glide.with(One_Solve_Writing_Activity.this).load(url)
+                        .into(imageView);
             }
 
             @Override
@@ -100,64 +95,149 @@ public class One_Solve_Writing_Activity extends AppCompatActivity implements Run
 
             }
         });
+
+        getData();
+
     }
 
-    public void playSong() {
-        try {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                clearMediaPlayer();
-                seekBar.setProgress(0);
-                wasPlaying = true;
+
+    public void mOnPopupClick(View v){
+        //데이터 담아서 팝업(액티비티) 호출
+        ref.child("읽기").child(arr[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String sol = "";
+                sol = String.valueOf(dataSnapshot.child("해설").getValue());
+                Intent i = new Intent(One_Solve_Writing_Activity.this, Solution_Popup_Activity.class);
+                i.putExtra("sol", sol);
+                startActivityForResult(i, 1);
             }
 
-            if (!wasPlaying) {
-                if (mediaPlayer == null) {
-                    mediaPlayer = new MediaPlayer();
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                mediaPlayer.setDataSource(s);
-                mediaPlayer.prepare();
-                mediaPlayer.setLooping(false);
-                seekBar.setMax(mediaPlayer.getDuration());
-                mediaPlayer.start();
-                new Thread(this).start();
             }
-            wasPlaying = false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void run() {
-
-        int currentPosition = mediaPlayer.getCurrentPosition();
-        int total = mediaPlayer.getDuration();
-
-
-        while (mediaPlayer != null && mediaPlayer.isPlaying() && currentPosition < total) {
-            try {
-                Thread.sleep(1000);
-                currentPosition = mediaPlayer.getCurrentPosition();
-            } catch (InterruptedException e) {
-                return;
-            } catch (Exception e) {
-                return;
-            }
-
-            seekBar.setProgress(currentPosition);
-
-        }
+        });
+        /*
+        Intent i = new Intent(this, Solution_Popup_Activity.class);
+        i.putExtra("data", "솔루션");
+        startActivityForResult(i, 1);
+         */
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        clearMediaPlayer();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                //데이터 받기
+                String sol = data.getStringExtra("sol");
+                if(!sol.equals(""))
+                    ref1.child("해설등록 요청").child("유형").child("읽기").child(arr[count] + "번").push().setValue(sol);
+            }
+        }
     }
 
-    private void clearMediaPlayer() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+    public void restart(){
+        arr = shuffle();
+        count = 0;
+        String n = Integer.toString(arr[count]);
+
+        ref.child("읽기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String url = "";
+                url = dataSnapshot.child("url").getValue().toString();
+
+                Glide.with(One_Solve_Writing_Activity.this).load(url)
+                        .into(imageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void getData(){
+
+        for(int i = 0; i < 10; i++) {
+            ref.child("읽기").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String s = "";
+                    s = dataSnapshot.child("정답").getValue().toString();
+                    answer[index] = Integer.parseInt(s);
+                    url[index] = dataSnapshot.child("url").getValue().toString();
+                    index++;
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    public void showNext(){
+        count++;
+        if(count >= 10){
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Writing_Activity.this);
+            alert_confirm.setMessage("RETRY?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            restart();
+                        }
+                    }
+            );
+            alert_confirm.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            alert_confirm.show();
+        }
+        else{
+            Glide.with(One_Solve_Writing_Activity.this).load(url[count]).into(imageView);
+            if(answer[count] != 0)
+                c = true;
+        }
+    }
+
+    public void showPre(){
+        if(count == 0)
+            Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
+        else{
+            count--;
+            Glide.with(One_Solve_Writing_Activity.this).load(url[count])
+                    .into(imageView);
+        }
+    }
+
+    public void viewMessage(){
+        Toast.makeText(this, "press the answer number", Toast.LENGTH_LONG).show();
+    }
+
+    public int[] shuffle(){
+
+        int[] arr = new int[10];
+
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = i + 1;
+        }
+
+        for(int x=0;x<arr.length;x++){
+            int i = (int)(Math.random()*arr.length);
+            int j = (int)(Math.random()*arr.length);
+
+            int tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
+        return arr;
     }
 }
