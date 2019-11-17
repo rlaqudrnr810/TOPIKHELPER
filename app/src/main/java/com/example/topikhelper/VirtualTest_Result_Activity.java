@@ -17,11 +17,15 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
     private TextView score;
 
     private Button wrong;
+    private Button all;
 
     Intent intent;
     int[] my;
     int[] op;
     int[] q;
+    int[] userAll;
+    int[] answer;
+    int[] qAll = new int[100];
     private String[] url;
     private String[] mp3;
     private String dbname;
@@ -42,6 +46,7 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
         resultList.setAdapter(adapter);
         score = findViewById(R.id.score);
         wrong = findViewById(R.id.wrong);
+        all = findViewById(R.id.all);
 
 
         intent = getIntent();
@@ -53,6 +58,8 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
         q = extras.getIntArray("q");
         url=extras.getStringArray("url");
         mp3=extras.getStringArray("mp3");
+        userAll = extras.getIntArray("allUserAnswer");
+        answer = extras.getIntArray("allAnswer");
 
         int x = 200 - (my.length * 2);
         String str = Integer.toString(x);
@@ -66,6 +73,8 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
             adapter.addItem(count + "",s + "번", Integer.toString(op[i]), Integer.toString(my[i]));
             count++;
         }
+        for(int i = 0; i < qAll.length; i++)
+            qAll[i] = i + 1;
 
         wrong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +87,25 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
                 i.putExtra("q", q);
                 i.putExtra("url", url);
                 i.putExtra("mp3", mp3);
+                i.putExtra("type", 1);
                 startActivity(i);
             }
         });
 
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(VirtualTest_Result_Activity.this, VirtualTest_Wrong_Question_Activity.class);
+                i.putExtra("num", num);
+                i.putExtra("dbname", dbname);
+                i.putExtra("my", userAll);
+                i.putExtra("op", op);
+                i.putExtra("q", qAll);
+                i.putExtra("url", url);
+                i.putExtra("mp3", mp3);
+                i.putExtra("type", 0);
+                startActivity(i);
+            }
+        });
     }
 }

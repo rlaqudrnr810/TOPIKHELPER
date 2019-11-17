@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
+public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity implements Runnable{
 
 
     private MediaPlayer mMediaplayer;
     private int playbackPosition =0;
-
+    private TextView tx;
     private Button b1;
     private Button b2;
     private Button b3;
@@ -35,9 +37,13 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
     private Button play;
     private Button pause;
     private Button stop;
+    private Button adding;
 
     private ImageView img;
-    String sol;
+
+    SeekBar seekBar;
+    boolean wasPlaying = true;
+    String t = "00:00";
 
     Intent intent;
     int[] my;
@@ -47,12 +53,15 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
     String num;
     Bundle extras;
     DatabaseReference ref;
+    DatabaseReference ref1;
     String[] url;
     String[] mp3;
     String[] u;
     String[] m;
-    int index = 0;
+    int type;
     int count = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +81,12 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
         stop = findViewById(R.id.stop);
+        adding = findViewById(R.id.adding_solution);
+        tx = findViewById(R.id.textView6);
+
+        final TextView seekBarHint = findViewById(R.id.time);
+
+        seekBar = findViewById(R.id.seekbar);
 
         num = intent.getStringExtra("num");         // n회
         dbname = intent.getStringExtra("dbname");   // 모의고사1 or 모의고사2
@@ -81,19 +96,22 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         m = extras.getStringArray("mp3");
         u = extras.getStringArray("url");
 
+        type = intent.getIntExtra("type", -1);
+        if(type == 0)
+            tx.setText("Virtual Test - All Question");
         ref = FirebaseDatabase.getInstance().getReference(dbname).child(num);
+        ref1 = FirebaseDatabase.getInstance().getReference();
 
         url = new String[my.length];
         mp3 = new String[my.length];
 
         img = findViewById(R.id.img);
 
-        sol = "";
-
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    if(mMediaplayer == null || (mMediaplayer != null && !mMediaplayer.isPlaying()))
                     playAudio();
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
@@ -109,6 +127,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
                     //현재 재생위치 저장
                     playbackPosition = mMediaplayer.getCurrentPosition();
                     mMediaplayer.pause();
+                    wasPlaying = false;
                 }
             }
         });
@@ -135,39 +154,107 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
                 showPre();
             }
         });
+
+        adding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(VirtualTest_Wrong_Question_Activity.this, Solution_AddingPopup_Activity.class);
+                startActivityForResult(i, 2);
+            }
+        });
         getData();
         showFirst();
+
+        if(wasPlaying) {
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    seekBarHint.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
+                    if(fromTouch && mMediaplayer != null && mMediaplayer.isPlaying()) {
+                        mMediaplayer.seekTo(progress);
+                    }
+                    seekBarHint.setVisibility(View.VISIBLE);
+                    int m = progress / 60000;
+                    int s = (progress % 60000) / 1000;
+                    String strTime = String.format("%02d:%02d", m, s);
+                    seekBarHint.setText(strTime + " / " + t);
+
+                    if (progress > 0 && mMediaplayer != null && !mMediaplayer.isPlaying()) {
+                        //clearMediaPlayer();
+                        //fab.setImageDrawable(ContextCompat.getDrawable(One_Solve_Writing_Activity.this, android.R.drawable.ic_media_play));
+                        VirtualTest_Wrong_Question_Activity.this.seekBar.setProgress(0);
+                    }
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    if (mMediaplayer != null && mMediaplayer.isPlaying()) {
+                        mMediaplayer.seekTo(seekBar.getProgress());
+                    }
+                }
+            });
+        }
     }
+
     public void mOnPopupClick(View v){
         //데이터 담아서 팝업(액티비티) 호출
-        Intent intent = new Intent(this, Solution_Popup_Activity.class);
-        intent.putExtra("data", "솔루션");
-        startActivityForResult(intent, 1);
+        ref.child(q[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String sol = "";
+                sol = String.valueOf(dataSnapshot.child("해설").getValue());
+                Intent i = new Intent(VirtualTest_Wrong_Question_Activity.this, Solution_Popup_Activity.class);
+                i.putExtra("sol", sol);
+                startActivityForResult(i, 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        /*
+        Intent i = new Intent(this, Solution_Popup_Activity.class);
+        i.putExtra("data", "솔루션");
+        startActivityForResult(i, 1);
+         */
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 //데이터 받기
-                String result = data.getStringExtra("result");
-                //txtResult.setText(result);
+                String sol = data.getStringExtra("sol");
+                if(!sol.equals(""))
+                    ref1.child("해설등록 요청").child(dbname).child(num).child(q[count] + "번").push().setValue(sol);
             }
         }
     }
-
 
     public void getData(){
         for(int i = 0; i < my.length; i++) {
             int x = q[i];
             url[i] = u[x - 1];
-            mp3[i] = m[x - 1];
+            if(x <= 50)
+                mp3[i] = m[x - 1];
+            else
+                mp3[i] = "";
         }
     }
 
     public void showNext(){
         count++;
+        if(mMediaplayer != null){
+            mMediaplayer.stop();
+        }
+        mMediaplayer = null;
         if(count >= my.length){
             Toast.makeText(VirtualTest_Wrong_Question_Activity.this, "마지막문제입니다.", Toast.LENGTH_LONG).show();
         }
@@ -178,6 +265,10 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
     }
 
     public void showPre(){
+        if(mMediaplayer != null){
+            mMediaplayer.stop();
+        }
+        mMediaplayer = null;
         if(count == 0)
             Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
         else{
@@ -253,6 +344,13 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
             mMediaplayer.start();
             mMediaplayer.seekTo(playbackPosition);
         }
+        mMediaplayer.setLooping(false);
+        wasPlaying = true;
+        seekBar.setMax(mMediaplayer.getDuration());
+        int m = mMediaplayer.getDuration() / 60000;
+        int s = (mMediaplayer.getDuration() % 60000) / 1000;
+        t = String.format("%02d:%02d", m, s);
+        new Thread(this).start();
 
     }
 
@@ -280,8 +378,23 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         super.onBackPressed();
     }
 
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-            mp.start();
+    public void run() {
+
+        int currentPosition = mMediaplayer.getCurrentPosition();
+        int total = mMediaplayer.getDuration();
+
+
+        while (mMediaplayer != null && mMediaplayer.isPlaying() && currentPosition < total) {
+            try {
+                Thread.sleep(1000);
+                currentPosition = mMediaplayer.getCurrentPosition();
+            } catch (InterruptedException e) {
+                return;
+            } catch (Exception e) {
+                return;
+            }
+            seekBar.setProgress(currentPosition);
+        }
     }
+
 }

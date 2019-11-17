@@ -1,6 +1,7 @@
 package com.example.topikhelper;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class One_Solve_Listening_Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
+public class One_Solve_Listening_Activity extends AppCompatActivity implements Runnable {
 
     private MediaPlayer mMediaplayer;
 
@@ -39,6 +42,8 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
     private Button next;
     private Button pre;
     private Button solution;
+    private Button adding;
+
     private ImageView imageView;
 
     boolean c = false;
@@ -52,11 +57,16 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
     int[] answer = new int[10];
     int[] userAnswer = new int[10];
     boolean[] bk = new boolean[10];
+
+    SeekBar seekBar;
+    boolean wasPlaying = true;
+    String t = "00:00";
+
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
+    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
 
     FirebaseUser firebaseUser;
     FirebaseAuth firebaseAuth;
-
 
     private int playbackPosition =0;
 
@@ -82,15 +92,26 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
-        solution = (Button) findViewById(R.id.solution);
+        solution = (Button) findViewById(R.id.sol);
+        adding = findViewById(R.id.adding_solution);
 
         setButton(0);
+
+        adding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(One_Solve_Listening_Activity.this, Solution_AddingPopup_Activity.class);
+                startActivityForResult(i, 2);
+            }
+        });
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    playAudio();
+                    if(mMediaplayer == null || (mMediaplayer != null && !mMediaplayer.isPlaying()))
+                        //p = false;
+                        playAudio();
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -106,6 +127,9 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                     //현재 재생위치 저장
                     playbackPosition = mMediaplayer.getCurrentPosition();
                     mMediaplayer.pause();
+                    //wasPlaying = false;
+                    //p = true;
+                    seekBar.setProgress(playbackPosition);
                 }
             }
         });
@@ -117,7 +141,10 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                 if(mMediaplayer != null){
                     playbackPosition = 0;
                     mMediaplayer.stop();
+                    seekBar.setProgress(0);
                     mMediaplayer = null;
+                    //p = false;
+
                 }
             }
         });
@@ -174,7 +201,10 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                 if(mMediaplayer != null && mMediaplayer.isPlaying())
                     mMediaplayer.stop();
                 mMediaplayer = null;
+                seekBar.setProgress(0);
+                wasPlaying = false;
                 showPre();
+                //p = false;
             }
         });
 
@@ -200,6 +230,9 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
                 if(mMediaplayer != null && mMediaplayer.isPlaying())
                     mMediaplayer.stop();
                 mMediaplayer = null;
+                seekBar.setProgress(0);
+                wasPlaying = false;
+                //p = false;
                 showNext();
             }
         });
@@ -221,6 +254,107 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
             }
         });
         getData();
+
+        final TextView seekBarHint = findViewById(R.id.time);
+
+        seekBar = findViewById(R.id.seekbar);
+
+        if(wasPlaying) {
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    seekBarHint.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
+                    if(fromTouch && mMediaplayer != null && mMediaplayer.isPlaying()) {
+                        mMediaplayer.seekTo(progress);
+                    }
+                    seekBarHint.setVisibility(View.VISIBLE);
+                    int m = progress / 60000;
+                    int s = (progress % 60000) / 1000;
+                    String strTime = String.format("%02d:%02d", m, s);
+                    seekBarHint.setText(strTime + " / " + t);
+
+                    /*
+                    seekBarHint.setVisibility(View.VISIBLE);
+                    int x = (int) Math.ceil(progress / 1000f);
+                    if (mMediaplayer != null) {
+                        sec = (int) Math.ceil(Integer.parseInt(String.valueOf(mMediaplayer.getDuration())) / 1000f);
+                        if (sec >= 60) {
+                            min = sec / 60;
+                            sec %= 60;
+                        }
+                    }
+
+
+                     */
+
+                    //double percent = progress / (double) seekBar.getMax();
+                    //int offset = seekBar.getThumbOffset();
+                    //int seekWidth = seekBar.getWidth();
+                    //int val = (int) Math.round(percent * (seekWidth - 2 * offset));
+                    //int labelWidth = seekBarHint.getWidth();
+                    //seekBarHint.setX(offset + seekBar.getX() + val
+                    //        - Math.round(percent * offset)
+                    //        - Math.round(percent * labelWidth / 2));
+
+                    if (progress > 0 && mMediaplayer != null && !mMediaplayer.isPlaying()) {
+                        //clearMediaPlayer();
+                        //fab.setImageDrawable(ContextCompat.getDrawable(One_Solve_Writing_Activity.this, android.R.drawable.ic_media_play));
+                        One_Solve_Listening_Activity.this.seekBar.setProgress(0);
+                    }
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    if (mMediaplayer != null && mMediaplayer.isPlaying()) {
+                        mMediaplayer.seekTo(seekBar.getProgress());
+                    }
+                }
+            });
+        }
+
+
+    }
+
+    public void mOnPopupClick(View v){
+        //데이터 담아서 팝업(액티비티) 호출
+        ref.child("듣기").child(arr[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String sol = "";
+                sol = String.valueOf(dataSnapshot.child("해설").getValue());
+                Intent i = new Intent(One_Solve_Listening_Activity.this, Solution_Popup_Activity.class);
+                i.putExtra("sol", sol);
+                startActivityForResult(i, 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        /*
+        Intent i = new Intent(this, Solution_Popup_Activity.class);
+        i.putExtra("data", "솔루션");
+        startActivityForResult(i, 1);
+         */
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                //데이터 받기
+                String sol = data.getStringExtra("sol");
+                if(!sol.equals(""))
+                    ref1.child("해설등록 요청").child("유형").child("듣기").child(arr[count] + "번").push().setValue(sol);
+            }
+        }
     }
 
     public void getData(){
@@ -299,6 +433,7 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
             if(answer[count] != 0)
                 c = true;
         }
+
     }
 
     public void showPre(){
@@ -389,7 +524,13 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
             mMediaplayer.start();
             mMediaplayer.seekTo(playbackPosition);
         }
-
+        mMediaplayer.setLooping(false);
+        wasPlaying = true;
+        seekBar.setMax(mMediaplayer.getDuration());
+        int m = mMediaplayer.getDuration() / 60000;
+        int s = (mMediaplayer.getDuration() % 60000) / 1000;
+        t = String.format("%02d:%02d", m, s);
+        new Thread(this).start();
     }
 
     protected void onDestroy(){
@@ -407,9 +548,23 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         }
     }
 
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mp.start();
+    public void run() {
+
+        int currentPosition = mMediaplayer.getCurrentPosition();
+        int total = mMediaplayer.getDuration();
+
+
+        while (mMediaplayer != null && mMediaplayer.isPlaying() && currentPosition < total) {
+            try {
+                Thread.sleep(1000);
+                currentPosition = mMediaplayer.getCurrentPosition();
+            } catch (InterruptedException e) {
+                return;
+            } catch (Exception e) {
+                return;
+            }
+            seekBar.setProgress(currentPosition);
+        }
     }
 
     public void onBackPressed() {
@@ -421,5 +576,4 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements M
         super.onBackPressed();
 
     }
-
 }

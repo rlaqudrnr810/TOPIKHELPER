@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="Solution"
+            android:text="Solution Adding"
             android:textSize="20sp"
             android:textColor="#fff"
             android:gravity="center"
@@ -28,9 +28,11 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <EditText
             android:id="@+id/txtText"
-            android:textSize="15sp"
+            android:textSize="15dp"
+            android:hint="Enter Your Solution"
+            android:textColorHint="#999999"
             android:textColor="#000"
             android:alpha="0.87"
             android:gravity="center"
@@ -53,7 +55,7 @@
         android:layout_height="wrap_content">
         <Button
             android:text="OK"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="#F1C40F"
             android:padding="16dp"
             android:gravity="center"

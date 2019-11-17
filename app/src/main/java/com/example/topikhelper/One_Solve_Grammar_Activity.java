@@ -1,6 +1,7 @@
 package com.example.topikhelper;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
     private Button next;
     private Button pre;
     private Button solution;
+    private Button adding;
 
     private ImageView imageView;
 
@@ -43,7 +45,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
     int[] arr = shuffle();
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
-
+    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -59,10 +61,16 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
-        solution = (Button) findViewById(R.id.solution);
-
+        solution = (Button) findViewById(R.id.sol);
+        adding = findViewById(R.id.adding_solution);
         setButton(0);
-
+        adding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(One_Solve_Grammar_Activity.this, Solution_AddingPopup_Activity.class);
+                startActivityForResult(i, 2);
+            }
+        });
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +165,46 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         getData();
 
     }
+
+
+    public void mOnPopupClick(View v){
+        //데이터 담아서 팝업(액티비티) 호출
+        ref.child("문법").child(arr[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String sol = "";
+                sol = String.valueOf(dataSnapshot.child("해설").getValue());
+                Intent i = new Intent(One_Solve_Grammar_Activity.this, Solution_Popup_Activity.class);
+                i.putExtra("sol", sol);
+                startActivityForResult(i, 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        /*
+        Intent i = new Intent(this, Solution_Popup_Activity.class);
+        i.putExtra("data", "솔루션");
+        startActivityForResult(i, 1);
+         */
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                //데이터 받기
+                String sol = data.getStringExtra("sol");
+                if(!sol.equals(""))
+                    ref1.child("해설등록 요청").child("유형").child("문법").child(arr[count] + "번").push().setValue(sol);
+            }
+        }
+    }
+
+
     public void restart(){
         arr = shuffle();
         count = 0;

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Random_Solve_Activity">
 
-
     <!-- 상단바 -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +36,6 @@
                 android:textStyle="normal" />
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -45,28 +43,68 @@
             android:background="#FFFFFFFF"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="11"
+                android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/img"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/play"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:onClick="playMusic"
+                    android:background="@drawable/musicstart"/>
+
+                <Button
+                    android:id="@+id/pause"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:onClick="pauseMusic"
+                    android:background="@drawable/pause" />
+
+                <Button
+                    android:id="@+id/stop"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:onClick="stopMusic"
+                    android:background="@drawable/musicstop"/>
+                <SeekBar
+                    android:id="@+id/seekbar"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:scaleType="fitStart"
-                    android:adjustViewBounds="true"/>
+                    android:max="100"
+                    android:progress="0"/>
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:text="00:00 / 00:00"
+                    android:textColor="#070707"
+                    android:textSize="13sp"
+                    android:textStyle="normal"/>
+                <Button
+                    android:id="@+id/adding_solution"
+                    android:text="adding solution"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/btn_orange"
+                    android:onClick="addingSol"
+                    android:textColor="#000000"
+                    android:textSize="10dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#FFFFFFFF"
                 android:orientation="vertical"
-                android:background="#FFFCF6"
-                android:layout_weight="1.7">
-
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,78 +112,130 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center">
-                    <Button
-                        android:id="@+id/one_random_b1"
+
+                    <ImageView
+                        android:id="@+id/img"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFEEE8AA"
-                        android:text="①"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
-                    <Button
-                        android:id="@+id/one_random_b2"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFEEE8AA"
-                        android:layout_marginTop="3dp"
-                        android:text="②"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
-                    <Button
-                        android:id="@+id/one_random_b3"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFEEE8AA"
-                        android:layout_marginTop="3dp"
-                        android:text="③"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
-                    <Button
-                        android:id="@+id/one_random_b4"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="#FFEEE8AA"
-                        android:layout_marginTop="3dp"
-                        android:text="④"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitStart" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:layout_weight="4">
+                    android:padding="2dp"
+                    android:background="#FFFCF6"
+                    android:layout_weight="1.5"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/one_random_check"
-                        android:text="check"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/btn_orange_click"
-                        android:layout_margin="3dp"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
-                    <Button
-                        android:id="@+id/one_random_next"
-                        android:text="next"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_margin="3dp"
-                        android:background="@drawable/btn_orange_click"
-                        android:textColor="#000000"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/one_random_b1"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:background="#FFEEE8AA"
+                            android:text="①"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/one_random_b2"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:background="#FFEEE8AA"
+                            android:layout_marginTop="2dp"
+                            android:text="②"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/one_random_b3"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:background="#FFEEE8AA"
+                            android:layout_marginTop="2dp"
+                            android:text="③"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/one_random_b4"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:background="#FFEEE8AA"
+                            android:layout_marginTop="2dp"
+                            android:text="④"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="2dp">
+                        <Button
+                            android:id="@+id/pre"
+                            android:text="pre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_orange_click"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1.5"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:onClick="showPre"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/one_random_check"
+                            android:text="check"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1.2"
+                            android:background="@drawable/btn_orange_click"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/sol"
+                            android:text="go to solution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1.2"
+                            android:onClick="mOnPopupClick"
+                            android:background="@drawable/btn_orange_click"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/one_random_next"
+                            android:text="next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/btn_orange_click"
+                            android:textColor="#000000"
+                            android:textSize="15dp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>

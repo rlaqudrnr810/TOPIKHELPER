@@ -11,8 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        <activity android:name=".Solution_Popup_Activity" android:theme="@style/popupTheme" android:screenOrientation="portrait" />
+        <activity android:name=".One_Solve_Writing_Activity"></activity>
+        <activity android:name=".Solution_AddingPopup_Activity" />
+        <activity
+            android:name=".Solution_Popup_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/popupTheme" />
         <activity android:name=".VirtualTest_Wrong_Question_Activity" />
         <activity android:name=".One_Solve_Grammar_Activity" />
         <activity android:name=".VirtualTest_Result_Activity" />
