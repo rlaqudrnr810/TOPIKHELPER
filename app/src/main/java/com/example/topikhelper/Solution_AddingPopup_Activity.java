@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,18 +31,24 @@ public class Solution_AddingPopup_Activity extends AppCompatActivity {
     //확인 버튼 클릭
     public void mOnClose(View v){
         //데이터 전달하기
+
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Solution_AddingPopup_Activity.this);
-        alert_confirm.setMessage("해설을 등록하시겠습니까?.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alert_confirm.setMessage("Do you want to register solution?").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent();
                         String sol = "";
                         sol = txtText.getText().toString().trim();
-                        intent.putExtra("sol", sol);
-                        setResult(RESULT_OK, intent);
+                        if(sol != null && sol.isEmpty()){
+                            Toast.makeText(Solution_AddingPopup_Activity.this, "Enter Solution", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            intent.putExtra("sol", sol);
+                            setResult(RESULT_OK, intent);
 
-                        //액티비티(팝업) 닫기
-                        finish();
+                            //액티비티(팝업) 닫기
+                            finish();
+                        }
                     }
                 }
         );

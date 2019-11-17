@@ -499,7 +499,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
             }
         }
         else
-            Toast.makeText(Random_Solve_Activity.this, "듣기문제가 아닙니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Random_Solve_Activity.this, "This is not a listening problem.", Toast.LENGTH_SHORT).show();
     }
 
     public void pauseMusic(View v){
@@ -512,7 +512,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
             }
         }
         else
-            Toast.makeText(Random_Solve_Activity.this, "듣기문제가 아닙니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Random_Solve_Activity.this, "This is not a listening problem.", Toast.LENGTH_SHORT).show();
     }
 
     public void stopMusic(View v){
@@ -524,7 +524,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
             }
         }
         else
-            Toast.makeText(Random_Solve_Activity.this, "듣기문제가 아닙니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Random_Solve_Activity.this, "This is not a listening problem.", Toast.LENGTH_SHORT).show();
     }
 
     private void playAudio() throws Exception{

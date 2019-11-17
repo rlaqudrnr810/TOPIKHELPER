@@ -283,7 +283,7 @@ public class One_Solve_Reading_Activity extends AppCompatActivity {
 
     public void showPre(){
         if(count == 0)
-            Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The previous problem does not exist.", Toast.LENGTH_SHORT).show();
         else{
             count--;
             Glide.with(One_Solve_Reading_Activity.this).load(url[count])

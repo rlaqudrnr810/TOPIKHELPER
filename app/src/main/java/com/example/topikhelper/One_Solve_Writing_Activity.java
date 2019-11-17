@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,13 +24,13 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
     private Button check;
     private Button next;
     private Button pre;
-
+    private EditText text;
     private ImageView imageView;
 
-    String[] url = new String[10];
-    int[] answer = new int[10];
-    int[] userAnswer = new int[10];
-    boolean[] bk = new boolean[10];
+    String[] url = new String[4];
+    String[] answer = new String[4];
+    String[] userAnswer = new String[4];
+    boolean[] bk = new boolean[4];
 
     boolean c = false;
 
@@ -38,7 +39,6 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
     int[] arr = shuffle();
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
-    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -50,7 +50,7 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
-
+        text = findViewById(R.id.text);
 
         pre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,20 +60,6 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
         });
 
 
-        check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!bk[count]){
-                    if(c){
-                        c = false;
-                    }
-                    else{
-                        viewMessage();
-                    }
-                }
-            }
-        });
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,69 +67,28 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
             }
         });
 
-        ref.child("읽기").child(arr[0]+"번").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String url = "";
-                url = dataSnapshot.child("url").getValue().toString();
-                Glide.with(One_Solve_Writing_Activity.this).load(url)
-                        .into(imageView);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        showFirst();
         getData();
-
     }
-
-
     public void mOnPopupClick(View v){
         //데이터 담아서 팝업(액티비티) 호출
-        ref.child("읽기").child(arr[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String sol = "";
-                sol = String.valueOf(dataSnapshot.child("해설").getValue());
-                Intent i = new Intent(One_Solve_Writing_Activity.this, Solution_Popup_Activity.class);
-                i.putExtra("sol", sol);
-                startActivityForResult(i, 1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        /*
-        Intent i = new Intent(this, Solution_Popup_Activity.class);
-        i.putExtra("data", "솔루션");
+        Intent i = new Intent(One_Solve_Writing_Activity.this, Solution_Popup_Activity.class);
+        i.putExtra("sol", answer[count]);
         startActivityForResult(i, 1);
-         */
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
-            if (resultCode == RESULT_OK) {
-                //데이터 받기
-                String sol = data.getStringExtra("sol");
-                if(!sol.equals(""))
-                    ref1.child("해설등록 요청").child("유형").child("읽기").child(arr[count] + "번").push().setValue(sol);
-            }
-        }
-    }
 
+    }
     public void restart(){
         arr = shuffle();
         count = 0;
         String n = Integer.toString(arr[count]);
-
-        ref.child("읽기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+        for(int i = 0; i < 4; i++){
+            userAnswer[i] = "";
+        }
+        ref.child("쓰기").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = "";
@@ -151,6 +96,24 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
 
                 Glide.with(One_Solve_Writing_Activity.this).load(url)
                         .into(imageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void showFirst(){
+        ref.child("쓰기").child(arr[count] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s = "";
+                s = dataSnapshot.child("url").getValue().toString();
+                Glide.with(One_Solve_Writing_Activity.this).load(s).into(imageView);
+                answer[0] = dataSnapshot.child("정답").getValue().toString();
             }
 
             @Override
@@ -162,14 +125,13 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
     }
 
     public void getData(){
-
-        for(int i = 0; i < 10; i++) {
-            ref.child("읽기").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
+        for(int i = 0; i < 4; i++) {
+            ref.child("쓰기").child(arr[i] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String s = "";
                     s = dataSnapshot.child("정답").getValue().toString();
-                    answer[index] = Integer.parseInt(s);
+                    answer[index] = s;
                     url[index] = dataSnapshot.child("url").getValue().toString();
                     index++;
                 }
@@ -183,8 +145,9 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
     }
 
     public void showNext(){
+        userAnswer[count] = text.getText().toString().trim();
         count++;
-        if(count >= 10){
+        if(count >= 4){
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(One_Solve_Writing_Activity.this);
             alert_confirm.setMessage("RETRY?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -203,34 +166,38 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
         }
         else{
             Glide.with(One_Solve_Writing_Activity.this).load(url[count]).into(imageView);
-            if(answer[count] != 0)
-                c = true;
+            if(userAnswer[count] != null && !userAnswer[count].isEmpty()) {
+                text.setText(userAnswer[count]);
+            }
+            else
+                text.setText(null);
         }
     }
 
     public void showPre(){
+        userAnswer[count] = text.getText().toString().trim();
         if(count == 0)
-            Toast.makeText(this, "첫번째 문제입니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The previous problem does not exist.", Toast.LENGTH_SHORT).show();
         else{
             count--;
             Glide.with(One_Solve_Writing_Activity.this).load(url[count])
                     .into(imageView);
+            if(userAnswer[count] != null && !userAnswer[count].isEmpty())
+                text.setText(userAnswer[count]);
+            else
+                text.setText(null);
         }
-    }
-
-    public void viewMessage(){
-        Toast.makeText(this, "press the answer number", Toast.LENGTH_LONG).show();
     }
 
     public int[] shuffle(){
 
-        int[] arr = new int[10];
+        int[] arr = new int[4];
 
         for(int i = 0; i < arr.length; i++){
             arr[i] = i + 1;
         }
 
-        for(int x=0;x<arr.length;x++){
+        for(int x = 0; x < arr.length; x++){
             int i = (int)(Math.random()*arr.length);
             int j = (int)(Math.random()*arr.length);
 
