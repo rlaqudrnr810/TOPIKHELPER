@@ -2,10 +2,14 @@ package com.example.topikhelper;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,16 +32,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Dictionary_Select_Activity extends AppCompatActivity {
     private Button button_dailyvoca; // 단어장
-    private Button button_searchvoca; // 번역기
+    private Button translation; //번역기
+    private Button button_searchvoca; // URL
+
     private ListView dailyvocalist;
     private DailyVocaAdapter adapter;
     private LinearLayout dictionaryLinear;
+    private LinearLayout dictionaryLinear3;
     boolean layout1 = false;
     boolean layout2 = false;
+    boolean layout3 = false;
     private EditText translationText;
     private ImageView translationButton;
     private TextView resultText;
     private String result;
+    private EditText dictionarytext;
+    private ImageView url;
+
+    WebSettings websettings;
+    WebView web;
+    EditText textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +59,16 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_dictionary_select);
         dailyvocalist = findViewById(R.id.dailyvocalist);
         dictionaryLinear = findViewById(R.id.dictionaryLinear);
+        dictionaryLinear3 = findViewById(R.id.dictionaryLinear3);
         //final LinearLayout daylist = findViewById(R.id.daylist);
 
         Button daily_voca = findViewById(R.id.daily_voca);
+
+
+        url = (ImageView)findViewById(R.id.url);
+        web = (WebView)findViewById(R.id.web);
+        textview = (EditText)findViewById(R.id.dictionarytext);
+
 
         adapter = new DailyVocaAdapter(getApplicationContext());
 
@@ -68,7 +89,9 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
                 if(!layout1) {
                     dailyvocalist.setVisibility(View.VISIBLE);
                     dictionaryLinear.setVisibility(View.GONE);
+                    dictionaryLinear3.setVisibility(View.GONE);
                     layout2 = false;
+                    layout3 = false;
                 }
                 else{
                     dailyvocalist.setVisibility(View.GONE);
@@ -95,14 +118,16 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
             }
         });
 
-        button_searchvoca = findViewById(R.id.search_voca);
-        button_searchvoca.setOnClickListener(new View.OnClickListener() {
+        translation = findViewById(R.id.translation);
+        translation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!layout2) {
                     dailyvocalist.setVisibility(View.GONE);
                     dictionaryLinear.setVisibility(View.VISIBLE);
+                    dictionaryLinear3.setVisibility(View.GONE);
                     layout1=false;
+                    layout3=false;
                 }
                 else{
                     dictionaryLinear.setVisibility(View.GONE);
@@ -180,8 +205,52 @@ public class Dictionary_Select_Activity extends AppCompatActivity {
                 });
             }
         });
+
+        button_searchvoca = findViewById(R.id.search_voca);
+        button_searchvoca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!layout3) {
+                    dailyvocalist.setVisibility(View.GONE);
+                    dictionaryLinear.setVisibility(View.GONE);
+                    dictionaryLinear3.setVisibility(View.VISIBLE);
+                    layout1=false;
+                    layout2=false;
+                }
+                else{
+                    dictionaryLinear3.setVisibility(View.GONE);
+                }
+                layout3 = !layout3;
+
+                //hw3();
+
+                url.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query="+textview.getText().toString()));
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+
     }
 
+    public void hw(){
+        web.setWebViewClient(new WebViewClient());
+        web.loadUrl("https://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query="+textview.getText().toString());
+    }
+    public void hw2(){
+        websettings = web.getSettings();
+        websettings.setJavaScriptEnabled(true);
+        //web.setWebViewClient(new WebViewClient());
+        web.loadUrl("https://endic.naver.com/?sLn=kr");
+    }
+    public void hw3(){
+        web.setWebViewClient(new WebViewClient());
+        web.loadUrl("https://endic.naver.com/?sLn=kr");
+    }
     public void refreshlist(){
         adapter.notifyDataSetChanged();
     }

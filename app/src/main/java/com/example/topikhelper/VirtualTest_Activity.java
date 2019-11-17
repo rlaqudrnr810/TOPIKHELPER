@@ -18,6 +18,7 @@ package com.example.topikhelper;
         import androidx.annotation.RequiresApi;
         import androidx.appcompat.app.AlertDialog;
         import androidx.appcompat.app.AppCompatActivity;
+        import androidx.core.content.ContextCompat;
 
         import com.bumptech.glide.Glide;
         import com.google.firebase.database.DataSnapshot;
@@ -631,6 +632,7 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
 
         mTimerRunning = true;
         mButtonStartPause.setText("pause");
+        mButtonStartPause.setBackground(ContextCompat.getDrawable(this, R.drawable.timer_off));
         //mButtonReset.setVisibility(View.INVISIBLE);
     }
 
@@ -638,6 +640,7 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
         mCountDownTimer.cancel();
         mTimerRunning = false;
         mButtonStartPause.setText("start");
+        mButtonStartPause.setBackground(ContextCompat.getDrawable(this, R.drawable.timer));
         //mButtonReset.setVisibility( View.VISIBLE);
     }
 

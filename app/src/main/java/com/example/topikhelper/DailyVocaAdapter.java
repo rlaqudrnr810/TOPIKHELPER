@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,12 +40,12 @@ public class DailyVocaAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listview_item, parent, false);
+            convertView = inflater.inflate(R.layout.listview_item2, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        //CheckBox chkbox = convertView.findViewById(R.id.dayChkBox);
+        CheckBox chkbox = convertView.findViewById(R.id.dayChkBox);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         ListViewItem listViewItem = listViewItemList.get(position);
@@ -54,10 +55,10 @@ public class DailyVocaAdapter extends BaseAdapter {
 
         //해당 날짜에 해당하는 정수가 30보다 작으면 체크박스는 빈칸 클일은 없으니 같아지면 체크상태
         if(pref.getInt(listViewItem.getTitle(), 0) < 30){
-            // chkbox.setChecked(false);
+             chkbox.setChecked(false);
         }
         else{
-            //chkbox.setChecked(true);
+            chkbox.setChecked(true);
         }
 
         return convertView;
