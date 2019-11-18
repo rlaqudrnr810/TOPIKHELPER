@@ -26,9 +26,11 @@ public class Solution_Popup_Activity extends AppCompatActivity {
 
         //데이터 가져오기
         Intent intent = getIntent();
-        String data = intent.getStringExtra("data");
-        txtText.setText(data);
-
+        String data = intent.getStringExtra("sol");
+        if(data != null && !data.isEmpty())
+            txtText.setText(data);
+        else
+            txtText.setText("아직 데이터가 없습니다.");
     }
     //확인 버튼 클릭
     public void mOnClose(View v){

@@ -145,15 +145,28 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="9"
-                    >
+                    android:layout_weight="9">
                     <Button
                         android:id="@+id/wrong"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Check for wrong problem"
+                        android:layout_weight="1"
+                        android:textColor="#FF000000"
+                        android:textSize="13dp"
+                        android:background="@drawable/btn_roundsoft"/>
+
+
+                    <Button
+                        android:id="@+id/all"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Check for all problem"
+                        android:layout_weight="1"
+                        android:textSize="13dp"
                         android:textColor="#FF000000"
                         android:background="@drawable/btn_roundsoft"/>
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

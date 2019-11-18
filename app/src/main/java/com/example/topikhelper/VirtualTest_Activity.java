@@ -1,6 +1,6 @@
 package com.example.topikhelper;
 
-        import android.content.DialogInterface;
+import android.content.DialogInterface;
         import android.content.Intent;
         import android.graphics.Color;
         import android.media.MediaPlayer;
@@ -224,9 +224,8 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
 
     }
 
-
     private void playAudio() throws Exception{
-        if(mMediaplayer == null && count < 50 && !mCheck[count - 1]) {
+        if(mMediaplayer == null && count <= 50 && !mCheck[count - 1]) {
             mMediaplayer = new MediaPlayer();
             mMediaplayer.setDataSource(musicurl[count - 1]);
             mMediaplayer.prepare();
@@ -255,7 +254,6 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
         mp.start();
     }
 
-
     public void setButton(int n){
         b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
@@ -283,13 +281,16 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
     }
 
     public void showNext(){
-        if(count >= 100){
+        if(count >= 2){
             // 문제풀기 끝
 
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(VirtualTest_Activity.this);
             alert_confirm.setMessage("The test is over. Check your score.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            if(mMediaplayer != null)
+                                mMediaplayer.stop();
+                            mMediaplayer = null;
                             gotoresult();
                         }
                     }
@@ -475,11 +476,15 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
                 x++;
             }
         }
+        int[] a = new int[100];
+        int[] b = new int[100];
         int[] my = new int[x];
         int[] op = new int[x];
         int[] q = new int[x];
         int index = 0;
         for (int i = 0; i < userAnswer.length(); i++) {
+            a[i] = userAnswer.charAt(i) - '0';
+            b[i] = answer.charAt(i) - '0';
             if (answer.charAt(i) != userAnswer.charAt(i)) {
                 my[index] = userAnswer.charAt(i) - '0';
                 op[index] = answer.charAt(i) - '0';
@@ -496,6 +501,8 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
         intent.putExtra("q", q);
         intent.putExtra("url", imgurl);
         intent.putExtra("mp3", musicurl);
+        intent.putExtra("allUserAnswer", a);
+        intent.putExtra("allAnswer", b);
         startActivity(intent);
         finish();
 
@@ -505,7 +512,7 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
         if(count == 1){
             Toast.makeText(this, "The previous problem does not exist.", Toast.LENGTH_LONG).show();
         }
-        else if(count == 50){
+        else if(count == 51){
             Toast.makeText(this, "The previous problem does not exist.", Toast.LENGTH_LONG).show();
         }
         else{
@@ -654,12 +661,12 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
             backKeyPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "Press the back button again to exit.\n" +
                     "It is not saved.",Toast.LENGTH_SHORT).show();
-            if(mMediaplayer != null)
-                mMediaplayer.stop();
-            mMediaplayer = null;
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            if(mMediaplayer != null)
+                mMediaplayer.stop();
+            mMediaplayer = null;
             finish();
         }
     }

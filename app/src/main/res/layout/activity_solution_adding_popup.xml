@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
         <TextView
             android:text="Solution"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#fff"
             android:gravity="center"
             android:background="#F1C40F"
@@ -30,9 +30,11 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+        <EditText
             android:id="@+id/txtText"
-            android:textSize="14dp"
+            android:textSize="15sp"
+            android:hint="Enter Your Solution"
+            android:textColorHint="#999999"
             android:textColor="#000"
             android:alpha="0.87"
             android:gravity="center"
@@ -55,7 +57,7 @@
         android:layout_height="wrap_content">
         <Button
             android:text="OK"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:textColor="#F1C40F"
             android:padding="16dp"
             android:gravity="center"

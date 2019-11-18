@@ -79,6 +79,15 @@
                 android:text="Grammar"/>
 
 
+            <Button
+                android:id="@+id/type_b4"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/btn_roundsoft"
+                android:textColor="#FF000000"
+                android:text="Writing"/>
+
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
