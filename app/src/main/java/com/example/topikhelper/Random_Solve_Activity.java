@@ -83,6 +83,8 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
         });
 
     }
+
+
     public void restart(){
         arr = shuffle();
         count = 0;
@@ -104,6 +106,8 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
             }
         });
     }
+
+
     public void showNext(){
 
         b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
@@ -149,6 +153,8 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
         }
 
     }
+
+
     public void checkAnswer(){
         if(count >= 10){
             Toast.makeText(this, "The end.", Toast.LENGTH_LONG).show();
@@ -183,6 +189,8 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
             });
         }
     }
+
+
     public void onClick(View view){
         if(view == b1 && !sol){
             if(last != -1)
@@ -250,7 +258,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements View.OnC
         int[] arr = new int[50];
 
         for(int i = 0; i < arr.length; i++){
-            arr[i] = i + 51;
+            arr[i] = i + 1;
         }
 
         for(int x=0;x<arr.length;x++){

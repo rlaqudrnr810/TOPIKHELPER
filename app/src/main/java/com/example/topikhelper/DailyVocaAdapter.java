@@ -58,8 +58,17 @@ public class DailyVocaAdapter extends BaseAdapter {
              chkbox.setChecked(false);
         }
         else{
+
+            /*if(chkbox.isChecked()){
+                chkbox.toggle();
+                //chkbox.setChecked(false);
+            }*/
+
             chkbox.setChecked(true);
+            //chkbox.toggle();
         }
+
+
 
         return convertView;
     }
