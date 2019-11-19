@@ -3,9 +3,13 @@ package com.example.topikhelper;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +37,7 @@ public class Solution_AddingPopup_Activity extends AppCompatActivity {
         //데이터 전달하기
 
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Solution_AddingPopup_Activity.this);
+
         alert_confirm.setMessage("Do you want to register solution?").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -59,6 +64,16 @@ public class Solution_AddingPopup_Activity extends AppCompatActivity {
             }
         });
         alert_confirm.show();
+
+
+        /*Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        Window window = alert_confirm.getWindow();
+        int x = (int)(size.x *0.8f);
+        int y = (int)(size.y *0.6f);
+        window.setLayout(x,y);*/
     }
 
     @Override

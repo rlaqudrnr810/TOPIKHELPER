@@ -11,15 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Translation_Activity"></activity>
-        <activity android:name=".Daily_Voca_Test_Activity" />
-        <activity
-            android:name=".Solution_Popup_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/popupTheme" />
-
         <activity android:name=".One_Solve_Writing_Activity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".Solution_AddingPopup_Activity"
             android:screenOrientation="portrait"
@@ -36,11 +29,11 @@
         <activity android:name=".Type_Solve_Activity" />
         <activity android:name=".Random_Solve_Activity" />
         <activity android:name=".One_Solve_Select_Activity" />
-        <activity
-            android:name=".Dictionary_Select_Activity"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Dictionary_Select_Activity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Daily_Voca_Activity" />
         <activity android:name=".Mypage_Activity" />
+        <activity android:name=".Translation_Activity" />
         <activity android:name=".VirtualTest_Activity" />
         <activity android:name=".VirtualTest_Select_Activity" />
         <activity android:name=".Menu_Activity" />

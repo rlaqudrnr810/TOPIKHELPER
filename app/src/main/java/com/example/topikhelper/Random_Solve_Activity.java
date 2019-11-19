@@ -220,12 +220,9 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
 
     }
 
-<<<<<<< HEAD
-=======
     public void message(){
         Toast.makeText(this, "press the answer number", Toast.LENGTH_LONG).show();
     }
->>>>>>> e4cad63c25034ca07184b07146eb18d871aa79d5
 
     public void restart(){
         arr = shuffle();
@@ -252,12 +249,6 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
             }
         });
     }
-<<<<<<< HEAD
-
-
-    public void showNext(){
-=======
->>>>>>> e4cad63c25034ca07184b07146eb18d871aa79d5
 
     public void showNext(){
         count++;
@@ -374,10 +365,6 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e4cad63c25034ca07184b07146eb18d871aa79d5
     public void checkAnswer(){
         if(count >= 10){
             Toast.makeText(this, "The end.", Toast.LENGTH_LONG).show();
@@ -413,11 +400,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
         }
     }
 
-<<<<<<< HEAD
-
-=======
 /*
->>>>>>> e4cad63c25034ca07184b07146eb18d871aa79d5
     public void onClick(View view){
         if(view == b1 && !sol[count]){
             if(last != -1)

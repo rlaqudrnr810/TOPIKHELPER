@@ -39,9 +39,9 @@
             <Button
                 android:id="@+id/adding_solution"
                 android:text="adding solution"
-                android:layout_width="60dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/btn_orange"
                 android:textColor="#000000"
                 android:textSize="10dp"
@@ -140,7 +140,7 @@
                         android:layout_margin="3dp"
                         android:layout_weight="1.5"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/check"
@@ -152,7 +152,7 @@
                         android:layout_weight="1.2"
                         android:background="@drawable/btn_orange_click"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/sol"
@@ -165,7 +165,7 @@
                         android:background="@drawable/btn_orange_click"
                         android:onClick="mOnPopupClick"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/next"
@@ -177,7 +177,7 @@
                         android:layout_weight="1.5"
                         android:background="@drawable/btn_orange_click"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>
