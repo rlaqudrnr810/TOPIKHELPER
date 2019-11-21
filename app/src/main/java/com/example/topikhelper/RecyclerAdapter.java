@@ -61,6 +61,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         if(chk){
             holder.chkbox.setChecked(true);
         }
+        /*else if(holder.chkbox.isChecked()){
+            holder.chkbox.setChecked(false);
+        }*/ /***체크 해제 하려 했는데 안됨***/
         else{
             holder.chkbox.setChecked(false);
         }

@@ -31,6 +31,8 @@
         <activity android:name=".One_Solve_Select_Activity" />
         <activity android:name=".Dictionary_Select_Activity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".Daily_Voca_Test_Activity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Daily_Voca_Activity" />
         <activity android:name=".Mypage_Activity" />
         <activity android:name=".Translation_Activity" />

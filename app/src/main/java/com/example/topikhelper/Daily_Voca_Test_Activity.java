@@ -4,16 +4,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -24,12 +29,21 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-//public class Daily_Voca_Test_Activity extends AppCompatActivity implements View.OnClickListener {
-public abstract class Daily_Voca_Test_Activity extends AppCompatActivity implements View.OnClickListener {
-    private TextView question1, question2, question3, question4, question5, question6, quesiton7, quesion8, question9, question10;
-    private EditText answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10;
-    private Button answercheck1, answercheck2, answercheck3, answercheck4, answercheck5, answercheck6, answercheck7, answercheck8, answercheck9, answercheck10;
-    int count = 0;
+public class Daily_Voca_Test_Activity extends AppCompatActivity{
+
+    ListView listview ;
+    DailyVocaTestAdapter adapter;
+    Intent intent;
+    String day2;
+    int count = 1;
+    Button vocaTestButton;
+
+    private String meaning = "";
+    private EditText answers;
+
+
+    ArrayList<DailyVocaTestItem> mList = new ArrayList<DailyVocaTestItem>();
+    DailyVocaTestItem dailyVocaTestItems;
     //   int[] arr = shuffle();
     String[] _mList;
 
@@ -41,112 +55,62 @@ public abstract class Daily_Voca_Test_Activity extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_voca_test);
 
-        question1 = (TextView) findViewById(R.id.question1);
-        answer1 = (EditText) findViewById(R.id.answer1);
-        answercheck1 = (Button) findViewById(R.id.answercheck1);
+        listview = (ListView) findViewById(R.id.DailyVocaTestList);
+        answers =(EditText)findViewById(R.id.VocaTestEdittext);
+        vocaTestButton = (Button)findViewById(R.id.VocaTestButton);
+
+        intent = getIntent();
+        day2 = intent.getStringExtra("key2");
 
 
-  /*
-        Intent intent = getIntent();
-        String _questions[] = intent.getExtras().getStringArray("questions");
-        String _answers[] = intent.getExtras().getStringArray("answers");
 
-
-        _mList = new ArrayList<>();
-        _mList = getIntent().getParcelableArrayListExtra("questions");
-        _mList = shuffle2();
-
-
-        String h = "1";
-        String n = Integer.toString(_mList[count]);
-        ref.child(h+"일").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(day2).addListenerForSingleValueEvent(new ValueEventListener() { //day값 intent로 넘겨받기
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String question = "";
-                question = dataSnapshot.child("name").getValue().toString();
-                question1.setText(question);
+                for( DataSnapshot ds : dataSnapshot.getChildren()){ //children 전부 가져오기
+                    dailyVocaTestItems = ds.getValue(DailyVocaTestItem.class);
+                    mList.add(dailyVocaTestItems);
+
+                }
+                //mList에 있는 30개 섞어서 10개만 mList에 넣기
+                mList = shuffle2(mList);
+
+                // Adapter 생성
+                adapter = new DailyVocaTestAdapter(getApplicationContext(), mList);
+
+                // 리스트뷰 참조 및 Adapter달기
+                listview.setAdapter(adapter);
+
+
+
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {  }
-            });
-        }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
 
-
-    public void checkAnswer(){
-        if(count >= 10){
-            Toast.makeText(this, "The end.", Toast.LENGTH_LONG).show();
-        }
-        else{
-            String a = "1";
-            String b = Integer.toString(_mList[count++]);
-            ref.child(a+"회").child(b+"번").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String answer = dataSnapshot.child("meaning").getValue().toString();
-                    //String a = answer;
-                    if (answer == answer1.getText().toString())
-                        answercheck1.setBackgroundColor(Color.BLUE);
-                    else
-                        answercheck1.setBackgroundColor(Color.RED);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
 
     }
-*/
-
-/*
-        public int[] shuffle () {
-            int[] arr = new int[30];
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = i + 1;
-            }
-
-            for (int x = 0; x < arr.length; x++) {
-                int i = (int) (Math.random() * arr.length);
-                int j = (int) (Math.random() * arr.length);
-
-                int tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
-            }
-
-            int[] ret = new int[10];
-            for (int i = 0; i < 10; i++)
-                ret[i] = arr[i];
-            return ret;
+    public ArrayList<DailyVocaTestItem> shuffle2 (ArrayList<DailyVocaTestItem> mList) {
+        DailyVocaTestItem[] arr = new DailyVocaTestItem[30];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] =  mList.get(i);
         }
 
+        for (int x = 0; x < arr.length; x++) {
+            int i = (int) (Math.random() * arr.length);
+            int j = (int) (Math.random() * arr.length);
 
-        public String[] shuffle2 () {
-            String[] arr = new String[30];
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = String.valueOf(i + 1);
-            }
+            DailyVocaTestItem tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
 
-            for (int x = 0; x < arr.length; x++) {
-                int i = (int) (Math.random() * arr.length);
-                int j = (int) (Math.random() * arr.length);
-
-                String tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
-            }
-
-            String[] ret = new String[10];
-            for (int i = 0; i < 10; i++)
-                ret[i] = arr[i];
-            return ret;
-        }*/
-
+        ArrayList<DailyVocaTestItem> ret = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            ret.add(arr[i]);
+        return ret;
     }
 }
