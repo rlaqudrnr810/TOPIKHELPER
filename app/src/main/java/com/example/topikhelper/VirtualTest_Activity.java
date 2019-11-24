@@ -1,6 +1,8 @@
 package com.example.topikhelper;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+<<<<<<< HEAD
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -31,6 +33,39 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+=======
+        import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+        import android.media.MediaPlayer;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.os.CountDownTimer;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import androidx.annotation.NonNull;
+        import androidx.annotation.RequiresApi;
+        import androidx.appcompat.app.AlertDialog;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.core.content.ContextCompat;
+
+        import com.bumptech.glide.Glide;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
+
+        import java.util.ArrayList;
+        import java.util.Comparator;
+        import java.util.List;
+        import java.util.Locale;
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 
 public class VirtualTest_Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
     class Node{
@@ -90,6 +125,8 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
 
     DatabaseReference ref;
     //액티비티가 종료될 때 이 곳을 실행한다. 화면 넘어가면 음악 끄는 기능.
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

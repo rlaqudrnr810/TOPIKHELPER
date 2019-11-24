@@ -3,8 +3,15 @@ package com.example.topikhelper;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+<<<<<<< HEAD
 import android.view.View;
 import android.widget.Button;
+=======
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 
 public class DailyVocaTestItem {
 

@@ -61,11 +61,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         if(chk){
             holder.chkbox.setChecked(true);
         }
+        /*else if(holder.chkbox.isChecked()){
+            holder.chkbox.setChecked(false);
+        }*/
         else{
             holder.chkbox.setChecked(false);
         }
+
         //이건 유저가 맘대로 체크박스를 사용하지 못하게 사용불가능으로 만듬
-        holder.chkbox.setEnabled(false);
+        //holder.chkbox.setEnabled(false);
 
         //리사이클러 뷰는 아이템을 누를때 누르는 색상이 안변해서 쓰레드를 사용해 딜레이를 걸어 색상을 잠깐 바꿔줌
         holder.cl.setOnClickListener(new View.OnClickListener() {

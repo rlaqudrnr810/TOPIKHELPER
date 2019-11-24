@@ -97,8 +97,15 @@ public class Daily_Voca_Activity extends AppCompatActivity {
 
             }
         });
+<<<<<<< HEAD
 /*
         //팝업창
+=======
+
+
+
+ //팝업창
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, final int position) {

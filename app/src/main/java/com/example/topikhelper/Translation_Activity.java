@@ -1,5 +1,10 @@
 package com.example.topikhelper;
 
+<<<<<<< HEAD
+=======
+import androidx.appcompat.app.AppCompatActivity;
+
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity;
 
+=======
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -58,6 +66,7 @@ public class Translation_Activity extends AppCompatActivity {
 
 
 
+<<<<<<< HEAD
         translationText = (EditText)findViewById(R.id.translationText);
         translationButton = (ImageView) findViewById(R.id.translationButton);
         resultText = (TextView)findViewById(R.id.resultText);
@@ -128,5 +137,77 @@ public class Translation_Activity extends AppCompatActivity {
             }
         });
     }
+=======
+                translationText = (EditText)findViewById(R.id.translationText);
+                translationButton = (ImageView) findViewById(R.id.translationButton);
+                resultText = (TextView)findViewById(R.id.resultText);
+
+                translationButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final Handler mHandler = new Handler();
+
+                        new Thread(new Runnable(){
+                            @Override
+                            public void run(){
+                                StringBuilder output = new StringBuilder();
+                                String clientId = "kTMEKqvk5S6f4aUrqZ9K";
+                                String clientSecret = "VK9IBsU4ji";
+                                try{
+                                    @SuppressLint("WrongThread") String text = URLEncoder.encode(translationText.getText().toString(), "UTF-8");
+                                    String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
+
+                                    URL url = new URL(apiURL);
+                                    HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                                    con.setRequestMethod("POST");
+                                    con.setRequestProperty("X-Naver-Client-Id", clientId);
+                                    con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+
+                                    String postParams = "source=ko&target=en&text="+text;
+                                    con.setDoOutput(true);
+                                    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                                    wr.writeBytes(postParams);
+                                    wr.flush();
+                                    wr.close();
+
+                                    int responseCode = con.getResponseCode();
+                                    BufferedReader br;
+                                    if(responseCode == 200){
+                                        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                                    }else{
+                                        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                                    }
+
+                                    String inputLine;
+                                    while((inputLine = br.readLine()) != null){
+                                        output.append(inputLine);
+                                    }
+                                    br.close();
+                                }catch(Exception ex){
+                                    Log.e("SampleHTTP","Exception in processing response.", ex);
+                                    ex.printStackTrace();
+                                }
+                                result = output.toString();
+                                mHandler.post(new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        JsonParser parser = new JsonParser();
+                                        JsonElement element = parser.parse(result);
+                                        if(element.getAsJsonObject().get("errorMessage")!=null){
+                                            Log.e("번역 오류", "번역 오류가 발생하였습니다. "
+                                                    + "[오류 코드 : " + element.getAsJsonObject().get("errorCode").getAsString() + "]");
+                                        }else if(element.getAsJsonObject().get("message")!=null){
+                                            resultText.setText(element.getAsJsonObject().get("message").getAsJsonObject().get("result")
+                                                    .getAsJsonObject().get("translatedText").getAsString());
+                                        }
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+                });
+            }
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 
 }

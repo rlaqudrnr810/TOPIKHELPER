@@ -29,6 +29,7 @@ public class Menu_Activity extends AppCompatActivity {
         private Button button2; // 한문제씩 풀기
         private Button button3; // 사전
         private Button button4; // 마이페이지
+        private Button button5; // 번역
 
         String email = "";
         String nickname = "";
@@ -97,6 +98,15 @@ public class Menu_Activity extends AppCompatActivity {
                     intent.putExtra("nickname", nickname);
                     intent.putExtra("history", history);
                     intent.putExtra("email", email);
+                    startActivity(intent); //액티비티 이동
+                }
+            });
+
+            button5 = findViewById(R.id.button5);
+            button5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Menu_Activity.this, Translation_Activity.class);
                     startActivity(intent); //액티비티 이동
                 }
             });

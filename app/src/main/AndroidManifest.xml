@@ -12,9 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Question_Bookmark_Activity"></activity>
+<<<<<<< HEAD
         <activity android:name=".Daily_Voca_Test_Activity" />
         <activity android:name=".Translation_Activity" />
         <activity android:name=".History_Activity" />
+=======
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
         <activity
             android:name=".One_Solve_Writing_Activity"
             android:windowSoftInputMode="adjustNothing" />
@@ -37,8 +40,15 @@
         <activity
             android:name=".Dictionary_Select_Activity"
             android:windowSoftInputMode="adjustPan" />
+<<<<<<< HEAD
+=======
+        <activity
+            android:name=".Daily_Voca_Test_Activity"
+            android:windowSoftInputMode="adjustPan" />
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
         <activity android:name=".Daily_Voca_Activity" />
         <activity android:name=".Mypage_Activity" />
+        <activity android:name=".Translation_Activity" />
         <activity android:name=".VirtualTest_Activity" />
         <activity android:name=".VirtualTest_Select_Activity" />
         <activity android:name=".Menu_Activity" />

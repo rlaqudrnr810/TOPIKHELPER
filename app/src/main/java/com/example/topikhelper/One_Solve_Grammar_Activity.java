@@ -1,12 +1,16 @@
 package com.example.topikhelper;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.example.topikhelper.Question_Bookmark_Activity.sp;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +34,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
     private Button pre;
     private Button solution;
     private Button adding;
+    private Button bookmark;
 
     private PhotoView imageView;
     String[] url = new String[10];
@@ -46,6 +51,8 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("유형");
     DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
 
+    sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE); //question bookmark
+    SharedPreferences.Editor editor = sp.edit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         b2 = (Button) findViewById(R.id.one_grammar_b2);
         b3 = (Button) findViewById(R.id.one_grammar_b3);
         b4 = (Button) findViewById(R.id.one_grammar_b4);
+        bookmark = (Button)findViewById(R.id.bookmark);
         check = (Button) findViewById(R.id.check);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
@@ -243,6 +251,9 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
                     answer[index] = Integer.parseInt(s);
                     url[index] = dataSnapshot.child("url").getValue().toString();
                     index++;
+
+
+                    bookmark();
                 }
 
                 @Override
@@ -366,5 +377,26 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         return ret;
          */
         return arr;
+    }
+
+    public void bookmark(){
+        bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(One_Solve_Grammar_Activity.this, Question_Bookmark_Activity.class);
+
+
+                Bundle extras = new Bundle();
+                extras.putString("문제번호", arr[i]);
+                extras.putString("답번호", answer[index]);
+                extras.putString("url번호", url[index]);
+
+                intent.putExtras(extras);
+
+                editor.commit();
+                startActivity(intent);
+            }
+        });
+
     }
 }

@@ -1,14 +1,30 @@
 package com.example.topikhelper;
 
 import android.content.Context;
+<<<<<<< HEAD
+=======
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.TextView;
 
+=======
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
 import java.util.ArrayList;
 
 public class DailyVocaTestAdapter extends BaseAdapter {
@@ -54,7 +70,11 @@ public class DailyVocaTestAdapter extends BaseAdapter {
         //TextView VocaTestNumber = (TextView)convertView.findViewById(R.id.VocaTestNumber);
         TextView VocaTestTextView = (TextView) convertView.findViewById(R.id.VocaTestTextview) ;
         answers =(EditText)convertView.findViewById(R.id.VocaTestEdittext);
+<<<<<<< HEAD
         // EditText VocaTestEditText = (EditText) convertView.findViewById(R.id.VocaTestEdittext) ;
+=======
+       // EditText VocaTestEditText = (EditText) convertView.findViewById(R.id.VocaTestEdittext) ;
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
         VocaTestButtoN = (Button) convertView.findViewById(R.id.VocaTestButton) ;
         final String realAnswers=answers.getText().toString().trim();
 

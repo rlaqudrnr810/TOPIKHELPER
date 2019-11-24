@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".Question_Bookmark_Activity">
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 915002429f7e48b8ef125fad2feb28a3cccb8808
     <!-- 상단바 -->
     <LinearLayout
         android:layout_width="match_parent"
