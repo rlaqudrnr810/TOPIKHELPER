@@ -34,7 +34,7 @@ public class Menu_Activity extends AppCompatActivity {
         String email = "";
         String nickname = "";
         String history = "";
-
+        String s = "";
         ProgressDialog progressDialog;
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("사용자");
