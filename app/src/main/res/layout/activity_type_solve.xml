@@ -55,7 +55,7 @@
                 android:id="@+id/type_b1"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_roundsoft"
+                android:background="@drawable/btn_roundsoft_click"
                 android:textColor="#FF000000"
                 android:text="Listening" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/btn_roundsoft"
+                android:background="@drawable/btn_roundsoft_click"
                 android:textColor="#FF000000"
                 android:text="Reading"/>
 
@@ -74,7 +74,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/btn_roundsoft"
+                android:background="@drawable/btn_roundsoft_click"
                 android:textColor="#FF000000"
                 android:text="Grammar"/>
 
@@ -84,7 +84,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/btn_roundsoft"
+                android:background="@drawable/btn_roundsoft_click"
                 android:textColor="#FF000000"
                 android:text="Writing"/>
 

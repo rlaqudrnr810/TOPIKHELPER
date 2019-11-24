@@ -151,9 +151,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Check for wrong problem"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:textColor="#FF000000"
-                        android:textSize="13dp"
+                        android:textSize="10dp"
                         android:background="@drawable/btn_roundsoft"/>
 
 
@@ -163,7 +164,8 @@
                         android:layout_height="match_parent"
                         android:text="Check for all problem"
                         android:layout_weight="1"
-                        android:textSize="13dp"
+                        android:layout_margin="5dp"
+                        android:textSize="10dp"
                         android:textColor="#FF000000"
                         android:background="@drawable/btn_roundsoft"/>
 

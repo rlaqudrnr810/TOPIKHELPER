@@ -1,8 +1,10 @@
 package com.example.topikhelper;
 
+import android.app.Activity;
 import android.content.DialogInterface;
         import android.content.Intent;
-        import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.graphics.Color;
         import android.media.MediaPlayer;
         import android.os.Build;
         import android.os.Bundle;
@@ -90,6 +92,8 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
 
     DatabaseReference ref;
     //액티비티가 종료될 때 이 곳을 실행한다. 화면 넘어가면 음악 끄는 기능.
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

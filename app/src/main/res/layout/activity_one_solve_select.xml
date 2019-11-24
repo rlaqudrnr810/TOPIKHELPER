@@ -65,7 +65,7 @@
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:text="Random Test"
-                    android:background="@drawable/btn_roundsoft"
+                    android:background="@drawable/btn_roundsoft_click"
                     android:textColor="#FF000000"/>
                 <Button
                     android:layout_width="40dp"
@@ -75,7 +75,7 @@
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:text="Type Test"
-                    android:background="@drawable/btn_roundsoft"
+                    android:background="@drawable/btn_roundsoft_click"
                     android:textColor="#FF000000"/>
             </LinearLayout>
         </LinearLayout>
