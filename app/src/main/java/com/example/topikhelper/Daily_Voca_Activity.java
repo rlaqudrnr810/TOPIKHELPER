@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,18 +32,36 @@ public class Daily_Voca_Activity extends AppCompatActivity {
     DailyVocaItem dailyVocaItems;
     ArrayList<DailyVocaItem> mList = new ArrayList<DailyVocaItem>();
     String day;
+    String day2;
     Intent intent;
     TextView textview;
     Dialog dialog;
+    private Button test; // 번역
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_voca);
         //textview = findViewById(R.id.customdaytext);
 
+        //테스트 화면으로 이동
+        test = findViewById(R.id.test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Daily_Voca_Activity.this, Daily_Voca_Test_Activity.class);
+                intent.putExtra("key2",day);
+                startActivity(intent); //액티비티 이동
+            }
+        });
+
+
+
+
         mRecyclerView = findViewById(R.id.listView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog);
@@ -61,7 +80,7 @@ public class Daily_Voca_Activity extends AppCompatActivity {
                 for(int i = 1; i <= 30; i++) {
                     //여기서 각 번호별로 안에 들어있는 데이터를 클래스에 매핑시켜줌
                     dailyVocaItems = dataSnapshot.child(i + "번").getValue(DailyVocaItem.class);
-                    //각 단어마다 어느날짜에 단어인지 만들어줄거
+                    //각 단어마다 어느날짜의 단어인지 만들어줄거
                     dailyVocaItems.setDay(day);
                     //요건 내가 로그에 확인해보려고 사용한 코드 신경 노노
                     Log.d("cau: ", String.valueOf(dailyVocaItems));
@@ -78,8 +97,8 @@ public class Daily_Voca_Activity extends AppCompatActivity {
 
             }
         });
-
-
+/*
+        //팝업창
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, final int position) {
@@ -94,7 +113,7 @@ public class Daily_Voca_Activity extends AppCompatActivity {
                 title1.setText(items.getName());
                 title2.setText(items.getPronun());
                 title3.setText(items.getMeaning());
-                frequency.setText(items.getFrequency());
+                frequency.setText("frequency : " + items.getFrequency());
 
                 dialog.show();
 
@@ -104,13 +123,18 @@ public class Daily_Voca_Activity extends AppCompatActivity {
             public void onLongClick(View view, int position) {
             }
         }));
+        */
     }
+
+
 
     public interface ClickListener {
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
     }
+
+
 
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 

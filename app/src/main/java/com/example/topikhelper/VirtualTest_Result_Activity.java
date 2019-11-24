@@ -2,15 +2,27 @@ package com.example.topikhelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VirtualTest_Result_Activity extends AppCompatActivity {
     private ListView resultList, resultList2, resultList3;
@@ -32,6 +44,13 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
     private String num;
     private Bundle extras;
     private DatabaseReference ref;
+    private DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("사용자");
+    private FirebaseAuth firebaseAuth;
+    String userKey = "";
+    String email = "";
+    String history = "";
+    String grade = "";
+    String date = "";
     private int count=1;
 
     @Override
@@ -61,10 +80,26 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
         userAll = extras.getIntArray("allUserAnswer");
         answer = extras.getIntArray("allAnswer");
 
-        int x = 200 - (my.length * 2);
-        String str = Integer.toString(x);
 
-        score.setText(str + " / 200");
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
+        if(firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, Login.class));
+        }
+
+        //유저가 있다면, null이 아니면 계속 진행
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        email = user.getEmail();
+
+        int x = 200 - (my.length * 2);
+        grade = Integer.toString(x);
+        score.setText(grade + " / 200");
+
+        date = getToDay();
+        updateHistory();
 
         ref = FirebaseDatabase.getInstance().getReference(dbname);
 
@@ -99,7 +134,7 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
                 i.putExtra("num", num);
                 i.putExtra("dbname", dbname);
                 i.putExtra("my", userAll);
-                i.putExtra("op", op);
+                i.putExtra("op", answer);
                 i.putExtra("q", qAll);
                 i.putExtra("url", url);
                 i.putExtra("mp3", mp3);
@@ -108,4 +143,41 @@ public class VirtualTest_Result_Activity extends AppCompatActivity {
             }
         });
     }
+
+    public String getToDay(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");       //시간까지
+        return sdf.format(new Date());
+    }
+
+    public void updateHistory(){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if( ds.child("email").getValue().toString().equals(email)) {
+                        history = String.valueOf(ds.child("history").getValue());
+                        String s = num.substring(0,1);
+                        Map<String, Object> userUpdates = new HashMap<>();
+                        if(history.equals("null"))
+                            history = "#" + s + "_" + grade + "_" + date;
+                        else
+                            history += "#" + s + "_" + grade + "_" + date;
+                        userKey = ds.getKey();
+                        userUpdates.put(userKey + "/history", history);
+                        DatabaseReference bk = FirebaseDatabase.getInstance().getReference("사용자");
+                        bk.updateChildren(userUpdates);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("on Cancelled ERROR!", databaseError.getMessage());
+            }
+        };
+        ref1.addListenerForSingleValueEvent(valueEventListener);
+    }
+
 }

@@ -2,16 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#eeeeee"
-    android:layout_width="400dp"
-    android:layout_height="500dp"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
     android:orientation="vertical">
 
     <!-- 타이틀바 -->
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:text="Solution"
             android:textSize="20dp"
@@ -30,6 +31,9 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/txtText"
             android:textSize="14dp"
@@ -39,6 +43,7 @@
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        </ScrollView>
     </LinearLayout>
     <!-- Notice -->
 

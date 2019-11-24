@@ -3,12 +3,22 @@ package com.example.topikhelper;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Menu_Activity extends AppCompatActivity {
         private MainBackPressCloseHandler mainBackPressCloseHandler;
@@ -20,13 +30,35 @@ public class Menu_Activity extends AppCompatActivity {
         private Button button3; // 사전
         private Button button4; // 마이페이지
 
+        String email = "";
+        String nickname = "";
+        String history = "";
+
         ProgressDialog progressDialog;
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("사용자");
+        private FirebaseAuth firebaseAuth;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_menu);
             mainBackPressCloseHandler = new MainBackPressCloseHandler(this);
+
+            firebaseAuth = FirebaseAuth.getInstance();
+
+            //유저가 로그인 하지 않은 상태라면 null 상태이고 이 액티비티를 종료하고 로그인 액티비티를 연다.
+            if(firebaseAuth.getCurrentUser() == null) {
+                finish();
+                startActivity(new Intent(this, Login.class));
+            }
+
+            //유저가 있다면, null이 아니면 계속 진행
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+
+            email = user.getEmail();
+            getUserData();
+
 
             progressDialog = new ProgressDialog(this);
 
@@ -62,11 +94,34 @@ public class Menu_Activity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Menu_Activity.this, Mypage_Activity.class);
+                    intent.putExtra("nickname", nickname);
+                    intent.putExtra("history", history);
+                    intent.putExtra("email", email);
                     startActivity(intent); //액티비티 이동
                 }
             });
 
         }
+    public void getUserData(){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if( ds.child("email").getValue().toString().equals(email)) {
+                        nickname = String.valueOf(ds.child("nickname").getValue());
+                        history = String.valueOf(ds.child("history").getValue());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("on Cancelled ERROR!", databaseError.getMessage());
+            }
+        };
+        ref.addListenerForSingleValueEvent(valueEventListener);
+    }
 
 
     @Override

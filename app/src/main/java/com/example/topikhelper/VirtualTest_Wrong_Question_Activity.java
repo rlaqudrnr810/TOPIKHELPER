@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +39,9 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
     private Button stop;
     private Button adding;
 
-    private ImageView img;
+    private PhotoView img;
+
+    private TextView txt;
 
     SeekBar seekBar;
     boolean wasPlaying = true;
@@ -84,6 +86,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         adding = findViewById(R.id.adding_solution);
         tx = findViewById(R.id.textView6);
 
+        txt = findViewById(R.id.time);
         final TextView seekBarHint = findViewById(R.id.time);
 
         seekBar = findViewById(R.id.seekbar);
@@ -98,7 +101,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
 
         type = intent.getIntExtra("type", -1);
         if(type == 0)
-            tx.setText("Virtual Test - All Question");
+            tx.setText("Virtual Test - All");
         ref = FirebaseDatabase.getInstance().getReference(dbname).child(num);
         ref1 = FirebaseDatabase.getInstance().getReference();
 
@@ -158,8 +161,13 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         adding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(VirtualTest_Wrong_Question_Activity.this, Solution_AddingPopup_Activity.class);
-                startActivityForResult(i, 2);
+                if(my[count] == op[count]) {
+                    Intent i = new Intent(VirtualTest_Wrong_Question_Activity.this, Solution_AddingPopup_Activity.class);
+                    startActivityForResult(i, 2);
+                }
+                else{
+                    Toast.makeText(VirtualTest_Wrong_Question_Activity.this, "정답자만 솔루션을 입력 할 수 있습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
         getData();
@@ -260,6 +268,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         }
         else{
             setButton();
+            viewButton(q[count]);
             Glide.with(VirtualTest_Wrong_Question_Activity.this).load(url[count]).into(img);
         }
     }
@@ -274,6 +283,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
         else{
             count--;
             setButton();
+            viewButton(q[count]);
             Glide.with(VirtualTest_Wrong_Question_Activity.this).load(url[count])
                     .into(img);
         }
@@ -281,6 +291,7 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
 
     public void showFirst(){
         setButton();
+        viewButton(q[0]);
         ref.child(q[0] + "번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -295,6 +306,24 @@ public class VirtualTest_Wrong_Question_Activity extends AppCompatActivity imple
 
             }
         });
+    }
+
+
+    public void viewButton(int n){
+        if(n > 50){
+            play.setVisibility(View.GONE);
+            pause.setVisibility(View.GONE);
+            stop.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
+            txt.setVisibility(View.GONE);
+        }
+        else{
+            play.setVisibility(View.VISIBLE);
+            pause.setVisibility(View.VISIBLE);
+            stop.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setButton(){

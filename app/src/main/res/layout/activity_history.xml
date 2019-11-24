@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFCF6"
-    tools:context=".VirtualTest_Activity">
-
+    tools:context=".History_Activity">
 
     <!-- 상단바 -->
     <LinearLayout
@@ -33,7 +32,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"
                 android:gravity="center|left"
-                android:text="Virtual Testing Result"
+                android:text="History"
                 android:textColor="#070707"
                 android:textSize="25sp"
                 android:textStyle="normal" />
@@ -47,31 +46,6 @@
             android:background="#FFFCF6"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="9"
-                android:padding="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="The test is over. Check your score."
-                    android:textSize="15sp"
-                    android:textColor="#070707"/>
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_weight="2"
-                    android:text="내점수 / 100"
-                    android:textColor="#070707"
-                    android:textSize="18sp"
-                    android:textStyle="normal"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,13 +57,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_weight="9">
+                    android:layout_weight="13">
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="Count"
+                        android:text="num"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                     <Button
@@ -97,23 +72,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="1dp"
-                        android:text="Question#"
-                        android:textColor="#FF000000"
-                        android:background="#F1C40F"/>
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="1dp"
-                        android:text="Answer"
-                        android:textColor="#FF000000"
-                        android:background="#F1C40F"/>
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="1dp"
-                        android:text="My answer"
+                        android:text="grade / date"
                         android:textColor="#FF000000"
                         android:background="#F1C40F"/>
                 </LinearLayout>
@@ -123,12 +82,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <ListView
-                            android:id="@+id/list"
+                            android:id="@+id/listview1"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:layout_margin="5dp"
@@ -141,34 +101,17 @@
 
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="9">
-                    <Button
-                        android:id="@+id/wrong"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Check for wrong problem"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:textColor="#FF000000"
-                        android:textSize="10dp"
-                        android:background="@drawable/btn_roundsoft"/>
-
+                    android:layout_height="wrap_content">
 
                     <Button
-                        android:id="@+id/all"
+                        android:id="@+id/go"
+                        android:text="Go to VirtualTest"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Check for all problem"
-                        android:layout_weight="1"
-                        android:layout_margin="5dp"
-                        android:textSize="10dp"
+                        android:layout_height="wrap_content"
                         android:textColor="#FF000000"
-                        android:background="@drawable/btn_roundsoft"/>
-
+                        android:background="#F1C40F"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

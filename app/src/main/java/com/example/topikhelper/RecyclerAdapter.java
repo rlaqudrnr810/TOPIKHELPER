@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private ArrayList<DailyVocaItem> mData;
@@ -79,27 +79,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     //클릭이벤트중 기존 아이템의 체크가 false인경우에만
                     if(!pref.getBoolean(item.getName(), false)) {
                         //해당 날짜의 이름을(ex: 1일, 2일) 키값으로 1씩 더해 정수를 저장 -> 해당 키값에 계속 정수를 덮어 30을 만들생각 존나 기발함
-                        editor.putInt(item.getDay(), pref.getInt(item.getDay(), 0) + 1);
+                        if(pref.getInt(item.getDay(), 0) >= 30)
+                            editor.putInt(item.getDay(), 30);
+                        else
+                            editor.putInt(item.getDay(), pref.getInt(item.getDay(), 0) + 1);
+                        editor.putBoolean(item.getName(), true);
+                        editor.commit();
+                        holder.chkbox.setChecked(true);
+                    }
+                    else{
+                        if(pref.getInt(item.getDay(), 0) > 0)
+                            editor.putInt(item.getDay(), pref.getInt(item.getDay(), 0) - 1);
+                        else
+                            editor.putInt(item.getDay(), 0);
+                        editor.putBoolean(item.getName(), false);
+                        editor.commit();
+                        holder.chkbox.setChecked(false);
                     }
                     //이떄 누른 단어의 값을 sharedpreference로 저장 키값은 단어이름
-                    editor.putBoolean(item.getName(), true);
+                    //editor.putBoolean(item.getName(), true);
 
                     Log.d(item.getDay()+"click: ", String.valueOf(pref.getInt(item.getDay(),0)));
-                    editor.commit();
-                    holder.chkbox.setChecked(true);
+
+                    //editor.commit();
+                    //holder.chkbox.setChecked(true);
                     new Handler().postDelayed(new Runnable()
                     {
                         @Override
                         public void run()
                         {
-                            holder.cl.setBackgroundColor(Color.parseColor("#FFF8F8FF"));
+                            holder.cl.setBackgroundColor(Color.parseColor("#FFF8F8FF"));    //흰색
                             holder.chkbox.setEnabled(false);
                         }
                     }, 300);
                 }
             }
         });
-
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

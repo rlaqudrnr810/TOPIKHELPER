@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +44,7 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements R
     private Button solution;
     private Button adding;
 
-    private ImageView imageView;
+    private PhotoView imageView;
 
     boolean c = false;
 
@@ -80,7 +80,7 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements R
         firebaseUser = firebaseAuth.getCurrentUser();
         mMediaplayer = null;
         //ref_two.child(firebaseUser.getUid()).child("history").setValue(url);
-        imageView = (ImageView) findViewById(R.id.img);
+        imageView = (PhotoView) findViewById(R.id.img);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
         pause = (Button) findViewById(R.id.pause);
@@ -100,8 +100,13 @@ public class One_Solve_Listening_Activity extends AppCompatActivity implements R
         adding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(One_Solve_Listening_Activity.this, Solution_AddingPopup_Activity.class);
-                startActivityForResult(i, 2);
+                if(bk[count] && userAnswer[count] == answer[count]) {
+                    Intent i = new Intent(One_Solve_Listening_Activity.this, Solution_AddingPopup_Activity.class);
+                    startActivityForResult(i, 2);
+                }
+                else{
+                    Toast.makeText(One_Solve_Listening_Activity.this, "정답자만 솔루션을 입력 할 수 있습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

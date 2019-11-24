@@ -104,17 +104,19 @@
                     android:background="@drawable/testhistory"/>
 
                 <Button
-                    android:id="@+id/customerservice"
+                    android:id="@+id/bookmark"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/customerservice"/>
+                    android:background="@drawable/question_bookmark"/>
 
                 <Button
+                    android:id="@+id/version"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="showVersion"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/version"/>
 

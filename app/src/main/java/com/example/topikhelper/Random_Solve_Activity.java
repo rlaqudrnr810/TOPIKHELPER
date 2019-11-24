@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +17,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class Random_Solve_Activity extends AppCompatActivity implements Runnable {
     private Button b1;
     private Button b2;
@@ -31,16 +30,21 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
     private Button b4;
     private Button check;
     private Button next;
+    private Button play;
+    private Button pause;
+    private Button stop;
 
+    private TextView txt;
     private SeekBar seekBar;
     boolean wasPlaying = true;
     String t = "00:00";
 
     private MediaPlayer mMediaplayer;
-    private ImageView imageView;
+    private PhotoView imageView;
     int playbackPosition = 0;
     boolean sol[] = new boolean[10];
     boolean[] ff = new boolean[4];
+    boolean canAddingSol = false;
     int last = -1;
     int count = 0;
     int[] arr = shuffle();
@@ -56,20 +60,25 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_random_solve);
 
-        imageView = (ImageView) findViewById(R.id.img);
+        imageView = findViewById(R.id.img);
         b1 = (Button) findViewById(R.id.one_random_b1);
         b2 = (Button) findViewById(R.id.one_random_b2);
         b3 = (Button) findViewById(R.id.one_random_b3);
         b4 = (Button) findViewById(R.id.one_random_b4);
         check = (Button) findViewById(R.id.one_random_check);
         next = (Button) findViewById(R.id.one_random_next);
+        play = (Button) findViewById(R.id.play);
+        pause = (Button) findViewById(R.id.pause);
+        stop = (Button) findViewById(R.id.stop);
+
         seekBar = findViewById(R.id.seekbar);
+        txt = findViewById(R.id.time);
+
         final TextView seekBarHint = findViewById(R.id.time);
         b1.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b2.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b3.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
         b4.setBackgroundColor(Color.parseColor("#FFEEE8AA"));
-
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +173,7 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
 
         String h = Integer.toString(num[count]);
         n = Integer.toString(arr[count]);
+        viewButton(arr[count]);
         Toast.makeText(Random_Solve_Activity.this, h + "회 - " + n + "번", Toast.LENGTH_LONG).show();
         ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -272,8 +282,10 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
         }
         else{
             //Toast.makeText(Random_Solve_Activity.this, )
+            canAddingSol = false;
             String h = Integer.toString(num[count]);
             n = Integer.toString(arr[count]);
+            viewButton(arr[count]);
             Toast.makeText(Random_Solve_Activity.this, h + "회 - " + n + "번", Toast.LENGTH_LONG).show();
             ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -321,8 +333,10 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
         else{
             count--;
             wasPlaying = false;
+            canAddingSol = false;
             String h = Integer.toString(num[count]);
             n = Integer.toString(arr[count]);
+            viewButton(arr[count]);
             Toast.makeText(Random_Solve_Activity.this, h + "회 - " + n + "번", Toast.LENGTH_LONG).show();
             ref.child(h+"회").child(n+"번").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -377,6 +391,9 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String answer = dataSnapshot.child("정답").getValue().toString();
                     int a = Integer.parseInt(answer);
+                    if(a == userAnswer[count]){
+                        canAddingSol = true;
+                    }
                     switch(a - 1) {
                         case 0:
                             b1.setBackgroundColor(Color.BLUE);
@@ -397,6 +414,23 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
 
                 }
             });
+        }
+    }
+
+    public void viewButton(int n){
+        if(n > 50){
+            play.setVisibility(View.GONE);
+            pause.setVisibility(View.GONE);
+            stop.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
+            txt.setVisibility(View.GONE);
+        }
+        else{
+            play.setVisibility(View.VISIBLE);
+            pause.setVisibility(View.VISIBLE);
+            stop.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.VISIBLE);
         }
     }
 
@@ -464,8 +498,13 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
  */
 
     public void addingSol(View v){
-        Intent i = new Intent(Random_Solve_Activity.this, Solution_AddingPopup_Activity.class);
-        startActivityForResult(i, 2);
+        if(sol[count] && canAddingSol) {
+            Intent i = new Intent(Random_Solve_Activity.this, Solution_AddingPopup_Activity.class);
+            startActivityForResult(i, 2);
+        }
+        else{
+            Toast.makeText(Random_Solve_Activity.this, "정답자만 솔루션을 입력 할 수 있습니다.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void mOnPopupClick(View v){
@@ -489,7 +528,6 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
 
     public void playMusic(View v){
         if(arr[count] <= 50){
-            Toast.makeText(Random_Solve_Activity.this, mp3, Toast.LENGTH_LONG).show();
             try {
                 if(mMediaplayer == null || (mMediaplayer != null && !mMediaplayer.isPlaying()))
                     playAudio();
@@ -498,8 +536,6 @@ public class Random_Solve_Activity extends AppCompatActivity implements Runnable
                 e.printStackTrace();
             }
         }
-        else
-            Toast.makeText(Random_Solve_Activity.this, "This is not a listening problem.", Toast.LENGTH_SHORT).show();
     }
 
     public void pauseMusic(View v){

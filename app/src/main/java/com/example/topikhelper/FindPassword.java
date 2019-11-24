@@ -29,7 +29,6 @@ public class FindPassword extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth firebaseAuth;
     String emailAddress = "";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

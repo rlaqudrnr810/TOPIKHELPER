@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,18 +21,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class One_Solve_Writing_Activity extends AppCompatActivity {
-    private Button check;
     private Button next;
     private Button pre;
     private EditText text;
-    private ImageView imageView;
+    private PhotoView imageView;
 
     String[] url = new String[4];
     String[] answer = new String[4];
     String[] userAnswer = new String[4];
-    boolean[] bk = new boolean[4];
-
-    boolean c = false;
 
     int index = 0;
     int count = 0;
@@ -46,8 +42,7 @@ public class One_Solve_Writing_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_solve_writing);
 
-        imageView = (ImageView) findViewById(R.id.img);
-        check = (Button) findViewById(R.id.check);
+        imageView = (PhotoView) findViewById(R.id.img);
         next = (Button) findViewById(R.id.next);
         pre = (Button) findViewById(R.id.pre);
         text = findViewById(R.id.text);

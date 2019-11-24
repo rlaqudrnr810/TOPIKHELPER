@@ -73,178 +73,81 @@
                         android:divider="#FAFAFA"
                         android:dividerHeight="2dp"
                         android:elevation="10dp"
-                        android:layout_marginBottom="2dp"
-                        android:visibility="gone" />
+                        android:layout_marginBottom="2dp" />
 
                     <!-- search voca -->
-
                     <Button
-                        android:id="@+id/translation"
+                        android:id="@+id/search_voca"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="translation"/>
+                        android:background="@drawable/search"/>
 
                     <LinearLayout
-                        android:id="@+id/dictionaryLinear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="#FAFAFA"
                         android:elevation="10dp"
                         android:layout_marginBottom="20dp"
-                        android:visibility="gone"
                         >
 
                         <LinearLayout
+                            android:id="@+id/dictionaryLinear3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_height="150dp"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginLeft="10dp"
-                                android:text="input the korean for translation"
-                                android:textColor="#FF000000"
-                                android:textSize="20dp"
-                                android:textStyle="italic"/>
-
-                            <EditText
-                                android:id="@+id/translationText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape"
-                                android:ems="10"
-                                android:hint="Search"
-                                android:layout_margin="25dp"
-                                android:inputType="text"
-                                android:textColor="#FF000000"
-                                android:textColorHint="#FF888888"
-                                android:textSize="25dp"
-                                android:textStyle="italic"/>
-
-                            <ImageView
-                                android:id="@+id/translationButton"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="20dp"
-                                android:src="@drawable/translation" />
-
-                            <TextView
-                                android:id="@+id/resultText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="25dp"
-                                android:layout_marginRight="25dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape"
-                                android:ems="10"
-                                android:hint="Result"
-                                android:textColor="#FF000000"
-                                android:textColorHint="#FF888888"
-                                android:textSize="25dp"
-                                android:textStyle="italic" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="500dp"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/search_voca"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/search"/>
-
-                <LinearLayout
-                    android:id="@+id/dictionaryLinear3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="#FAFAFA"
-                    android:elevation="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:visibility="gone"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="4">
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:gravity="center|left"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="5dp"
-                                android:text="input the korean for search"
-                                android:textColor="#FF000000"
-                                android:textSize="20dp"
-                                android:textStyle="italic"/>
+                                android:layout_weight="4">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center|left"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:text="input the korean for search"
+                                    android:textColor="#FF000000"
+                                    android:textSize="20dp"
+                                    android:textStyle="italic"/>
 
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:layout_weight="4">
-                        <EditText
-                            android:id="@+id/dictionarytext"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/shape"
-                            android:ems="10"
-                            android:hint="Search"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="10dp"
-                            android:inputType="text"
-                            android:textColor="#FF000000"
-                            android:textColorHint="#FF888888"
-                            android:textSize="25dp"
-                            android:textStyle="italic"/>
-                        <ImageView
-                            android:id="@+id/url"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="5"
-                            android:layout_marginRight="20dp"
-                            android:padding="7dp"
-                            android:src="@drawable/translation"/>
-                    </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="10dp"
-                            android:layout_weight="1">
-
-                            <WebView
-                            android:id="@+id/web"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                        </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_weight="4">
+                                <EditText
+                                    android:id="@+id/dictionarytext"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/shape"
+                                    android:ems="10"
+                                    android:hint="Search"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginRight="10dp"
+                                    android:inputType="text"
+                                    android:textColor="#FF000000"
+                                    android:textColorHint="#FF888888"
+                                    android:textSize="25dp"
+                                    android:textStyle="italic"/>
+                                <ImageView
+                                    android:id="@+id/url"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="5"
+                                    android:layout_marginRight="20dp"
+                                    android:padding="7dp"
+                                    android:src="@drawable/translation"/>
                             </LinearLayout>
                         </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>

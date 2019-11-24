@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,8 +31,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
     private Button solution;
     private Button adding;
 
-    private ImageView imageView;
-
+    private PhotoView imageView;
     String[] url = new String[10];
     int[] answer = new int[10];
     int[] userAnswer = new int[10];
@@ -53,7 +52,7 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_solve_grammar);
 
-        imageView = (ImageView) findViewById(R.id.img);
+        imageView = (PhotoView) findViewById(R.id.img);
         b1 = (Button) findViewById(R.id.one_grammar_b1);
         b2 = (Button) findViewById(R.id.one_grammar_b2);
         b3 = (Button) findViewById(R.id.one_grammar_b3);
@@ -67,8 +66,13 @@ public class One_Solve_Grammar_Activity extends AppCompatActivity {
         adding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(One_Solve_Grammar_Activity.this, Solution_AddingPopup_Activity.class);
-                startActivityForResult(i, 2);
+                if(bk[count] && userAnswer[count] == answer[count]) {
+                    Intent i = new Intent(One_Solve_Grammar_Activity.this, Solution_AddingPopup_Activity.class);
+                    startActivityForResult(i, 2);
+                }
+                else{
+                    Toast.makeText(One_Solve_Grammar_Activity.this, "정답자만 솔루션을 입력 할 수 있습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

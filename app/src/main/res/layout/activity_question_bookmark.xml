@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".One_Solve_Writing_Activity">
-
+    tools:context=".Question_Bookmark_Activity">
 
     <!-- 상단바 -->
     <LinearLayout
@@ -19,23 +18,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
+            android:gravity="center"
             android:background="#F1C40F"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"
+                android:layout_weight="1"
                 android:gravity="center|left"
-                android:text="Writing"
+                android:text="Question_Bookmark"
                 android:textColor="#070707"
                 android:textSize="25sp"
                 android:textStyle="normal" />
 
+            <Button
+                android:id="@+id/adding_solution"
+                android:text="adding solution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_orange"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:textStyle="bold"/>
         </LinearLayout>
 
 
@@ -50,9 +62,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1">
 
-                <com.github.chrisbanes.photoview.PhotoView
+                <ImageView
                     android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -66,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:background="#FFFCF6"
-                android:layout_weight="1">
+                android:layout_weight="1.7">
 
 
                 <LinearLayout
@@ -75,21 +87,52 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center">
-                    <EditText
-                        android:id="@+id/text"
+                    <Button
+                        android:id="@+id/one_reading_b1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="Enter Your Answer"
-                        android:textColorHint="#999999"
-                        android:textColor="#000"/>
+                        android:layout_height="45dp"
+                        android:background="#FFEEE8AA"
+                        android:text="①"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/one_reading_b2"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="#FFEEE8AA"
+                        android:layout_marginTop="3dp"
+                        android:text="②"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/one_reading_b3"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="#FFEEE8AA"
+                        android:layout_marginTop="3dp"
+                        android:text="③"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/one_reading_b4"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="#FFEEE8AA"
+                        android:layout_marginTop="3dp"
+                        android:text="④"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:layout_weight="6">
+                    android:layout_weight="4">
 
                     <Button
                         android:id="@+id/pre"
@@ -112,7 +155,18 @@
                         android:layout_weight="1.2"
                         android:background="@drawable/btn_orange_click"
                         android:textColor="#000000"
-                        android:onClick="mOnPopupClick"
+                        android:textSize="13dp"
+                        android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/sol"
+                        android:text="go to solution"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1.2"
+                        android:background="@drawable/btn_orange_click"
+                        android:textColor="#000000"
                         android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
@@ -128,13 +182,12 @@
                         android:textSize="13dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
-                --
+
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
+
 </RelativeLayout>
-
-
-

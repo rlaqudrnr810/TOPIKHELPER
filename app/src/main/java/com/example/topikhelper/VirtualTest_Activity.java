@@ -1,36 +1,36 @@
 package com.example.topikhelper;
 
 import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.graphics.Color;
-        import android.media.MediaPlayer;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.os.CountDownTimer;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AlertDialog;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-        import com.bumptech.glide.Glide;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
+import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-        import java.util.ArrayList;
-        import java.util.Comparator;
-        import java.util.List;
-        import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 public class VirtualTest_Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
     class Node{
@@ -58,7 +58,7 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
 
     boolean buttoncheck = false;
 
-    private ImageView image;
+    private PhotoView image;
 
     private Button b1;
     private Button b2;
@@ -281,9 +281,8 @@ public class VirtualTest_Activity extends AppCompatActivity implements MediaPlay
     }
 
     public void showNext(){
-        if(count >= 2){
+        if(count >= 100){
             // 문제풀기 끝
-
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(VirtualTest_Activity.this);
             alert_confirm.setMessage("The test is over. Check your score.").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override

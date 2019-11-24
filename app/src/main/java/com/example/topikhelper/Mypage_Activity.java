@@ -1,10 +1,13 @@
 package com.example.topikhelper;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,25 +32,46 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
 
     private FirebaseAuth firebaseAuth;
 
-
+    private ProgressDialog progressDialog;
     private TextView nickname;
     private TextView textViewUserEmail;
     private Button buttonLogout;
     private Button remove_btn;
+    private Button editpassword;
+    private Button testhistory;
+
+
+    Intent intent;
+
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("사용자");
     String email = "";
-
+    String history = "";
+    String name = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
+        intent = getIntent();
+        //extras = getIntent().getExtras();
+        history = intent.getStringExtra("history");
+        name = intent.getStringExtra("nickname");
+        email = intent.getStringExtra("email");
+
+
         nickname = (TextView) findViewById(R.id.textviewUserNickname);
+        nickname.setText(name);
+
         textViewUserEmail = (TextView) findViewById(R.id.textviewUserEmail);
 
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         remove_btn = (Button) findViewById(R.id.textviewDelete);
+        editpassword = (Button) findViewById(R.id.editpassword);
+        testhistory = (Button) findViewById(R.id.testhistory);
+
+
+        progressDialog = new ProgressDialog(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -58,15 +82,23 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
         }
 
         //유저가 있다면, null이 아니면 계속 진행
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        //FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        email = user.getEmail();
+        //email = user.getEmail();
 
         //logout button event
         buttonLogout.setOnClickListener(this);
         remove_btn.setOnClickListener(this);
-        //test_btn.setOnClickListener(this);
+        editpassword.setOnClickListener(this);
+        testhistory.setOnClickListener(this);
 
+        //getUserData();
+
+        textViewUserEmail.setText("("+ email + ")");
+
+    }
+
+    public void getUserData(){
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,6 +106,7 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
                     if( ds.child("email").getValue().toString().equals(email)) {
                         //Log.d("빠끄", ds.child("nickname").getValue().toString());
                         nickname.setText(ds.child("nickname").getValue().toString());
+                        history = String.valueOf(ds.child("history").getValue());
                         break;
                     }
                 }
@@ -85,13 +118,19 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
             }
         };
         ref.addListenerForSingleValueEvent(valueEventListener);
+    }
 
-        textViewUserEmail.setText("("+ email + ")");
+    public void showVersion(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        builder.setTitle("Version").setMessage("1.0.0");
 
+        AlertDialog alertDialog = builder.create();
 
-
-
+        alertDialog.show();
+    }
+    public void bookmark(){
+        Intent intent = new Intent();
     }
     public void deleteUser(){
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Mypage_Activity.this);
@@ -140,7 +179,14 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
+        if(view == testhistory){
+            Intent intent = new Intent(Mypage_Activity.this, History_Activity.class);
+            intent.putExtra("history", history);
+            startActivity(intent);
+        }
+        if(view == editpassword){
+            sendMail();
+        }
         if (view == buttonLogout) {
             firebaseAuth.getInstance().signOut();
             finish();
@@ -153,5 +199,40 @@ public class Mypage_Activity extends AppCompatActivity implements View.OnClickLi
         if(view == remove_btn) {
             deleteUser();
         }
+    }
+
+    public void sendMail(){
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(Mypage_Activity.this);
+        alert_confirm.setMessage("비밀번호 변경 메일을 보내시겠습니까?").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        firebaseAuth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(Mypage_Activity.this, "A Password change mail has been sent.\n Please confirm an email\n", Toast.LENGTH_LONG).show();
+                                            finish();
+                                            startActivity(new Intent(getApplicationContext(), Login.class));
+                                        } else {
+                                            Toast toast = Toast.makeText(Mypage_Activity.this, "         FAILED\n This user is not registered..", Toast.LENGTH_LONG);
+                                            ViewGroup group = (ViewGroup) toast.getView();
+                                            TextView messageTextView = (TextView) group.getChildAt(0);
+                                            messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                                            toast.show();
+                                        }
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                    }
+                }
+        );
+        alert_confirm.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert_confirm.show();
     }
 }

@@ -19,19 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
+            android:gravity="center"
             android:background="#F1C40F"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"
+                android:layout_weight="1"
                 android:gravity="center|left"
-                android:text="Type Test - Reading"
+                android:text="Reading"
                 android:textColor="#070707"
                 android:textSize="25sp"
                 android:textStyle="normal" />
@@ -39,9 +41,10 @@
             <Button
                 android:id="@+id/adding_solution"
                 android:text="adding solution"
-                android:layout_width="60dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_weight="5"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/btn_orange"
                 android:textColor="#000000"
                 android:textSize="10dp"
@@ -62,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <ImageView
+                <com.github.chrisbanes.photoview.PhotoView
                     android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -141,7 +144,7 @@
                         android:layout_margin="3dp"
                         android:layout_weight="1.5"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/check"
@@ -153,7 +156,7 @@
                         android:layout_weight="1.2"
                         android:background="@drawable/btn_orange_click"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/sol"
@@ -166,7 +169,7 @@
                         android:background="@drawable/btn_orange_click"
                         android:onClick="mOnPopupClick"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                     <Button
                         android:id="@+id/next"
@@ -178,10 +181,10 @@
                         android:layout_weight="1.5"
                         android:background="@drawable/btn_orange_click"
                         android:textColor="#000000"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
-                --
+
             </LinearLayout>
 
         </LinearLayout>
